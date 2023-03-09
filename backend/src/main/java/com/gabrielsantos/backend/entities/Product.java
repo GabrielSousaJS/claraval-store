@@ -31,16 +31,21 @@ public class Product implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private UserSeller seller;
+
     public Product() {
     }
 
-    public Product(Long id, String name, String description, Double price, Integer quantity, String imgUrl) {
+    public Product(Long id, String name, String description, Double price, Integer quantity, String imgUrl, UserSeller seller) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
         this.imgUrl = imgUrl;
+        this.seller = seller;
     }
 
     public Long getId() {
@@ -93,6 +98,14 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    public UserSeller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(UserSeller seller) {
+        this.seller = seller;
     }
 
     @Override
