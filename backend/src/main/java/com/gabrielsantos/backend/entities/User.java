@@ -20,6 +20,8 @@ public class User implements Serializable {
     private Long id;
     private String firstname;
     private String lastname;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant birthDate;
 
     @Column(unique = true)
