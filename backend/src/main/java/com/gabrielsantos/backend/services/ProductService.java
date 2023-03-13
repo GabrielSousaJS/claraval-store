@@ -4,7 +4,7 @@ import com.gabrielsantos.backend.dto.ProductDTO;
 import com.gabrielsantos.backend.dto.ProductMinDTO;
 import com.gabrielsantos.backend.entities.Product;
 import com.gabrielsantos.backend.repositories.ProductRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,11 +25,10 @@ public class ProductService {
         return page.map(ProductMinDTO::new);
     }
 
-    // Realizar o tratamento de exceção Not Found
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
         Optional<Product> obj = repository.findById(id);
-        Product entity = obj.orElseThrow(() -> new EntityNotFoundException("Product not found"));
+        Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         return new ProductDTO(entity);
     }
 }
