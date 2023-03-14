@@ -31,4 +31,10 @@ public class ProductService {
         Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         return new ProductDTO(entity);
     }
+
+    @Transactional(readOnly = true)
+    public Page<ProductMinDTO> findProductsByCategory(Long categoryId, Pageable pageable) {
+        Page<Product> page = repository.findProductsByCategory(categoryId, pageable);
+        return page.map(ProductMinDTO::new);
+    }
 }
