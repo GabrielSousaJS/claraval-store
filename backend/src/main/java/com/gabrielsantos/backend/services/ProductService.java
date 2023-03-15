@@ -2,7 +2,9 @@ package com.gabrielsantos.backend.services;
 
 import com.gabrielsantos.backend.dto.ProductDTO;
 import com.gabrielsantos.backend.dto.ProductMinDTO;
+import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.entities.Product;
+import com.gabrielsantos.backend.repositories.CategoryRepository;
 import com.gabrielsantos.backend.repositories.ProductRepository;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @Transactional(readOnly = true)
     public Page<ProductMinDTO> findAllPaged(Pageable pageable) {
         Page<Product> page = repository.findAll(pageable);
@@ -34,7 +39,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Page<ProductMinDTO> findProductsByCategory(Long categoryId, Pageable pageable) {
-        Page<Product> page = repository.findProductsByCategory(categoryId, pageable);
+        Category category = categoryRepository.getReferenceById(categoryId);
+        Page<Product> page = repository.findProductsByCategory(category, pageable);
         return page.map(ProductMinDTO::new);
     }
 }
