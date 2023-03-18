@@ -1,6 +1,5 @@
 package com.gabrielsantos.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
@@ -18,8 +17,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstname;
-    private String lastname;
+    private String name;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant birthDate;
@@ -44,10 +42,9 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Long id, String firstname, String lastname, Instant birthDate, String email, String password) {
+    public User(Long id, String name, Instant birthDate, String email, String password) {
         this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.name = name;
         this.birthDate = birthDate;
         this.email = email;
         this.password = password;
@@ -61,20 +58,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Instant getBirthDate() {

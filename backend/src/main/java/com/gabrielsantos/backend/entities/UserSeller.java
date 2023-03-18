@@ -22,8 +22,8 @@ public class UserSeller extends User {
     public UserSeller() {
     }
 
-    public UserSeller(Long id, String firstname, String lastname, Instant birthDate, String email, String password, String companyName) {
-        super(id, firstname, lastname, birthDate, email, password);
+    public UserSeller(Long id, String name, Instant birthDate, String email, String password, String companyName) {
+        super(id, name, birthDate, email, password);
         this.companyName = companyName;
     }
 
