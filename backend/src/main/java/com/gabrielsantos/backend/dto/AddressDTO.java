@@ -1,19 +1,14 @@
-package com.gabrielsantos.backend.entities;
+package com.gabrielsantos.backend.dto;
 
-import jakarta.persistence.*;
+import com.gabrielsantos.backend.entities.Address;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Objects;
 
-@Entity
-@Table(name = "tb_address")
-public class Address implements Serializable {
+public class AddressDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String publicPlace;
     private String cep;
@@ -21,16 +16,25 @@ public class Address implements Serializable {
     private String city;
     private String state;
 
-    public Address() {
+    public AddressDTO() {
     }
 
-    public Address(Long id, String publicPlace, String cep, Integer number, String city, String state) {
+    public AddressDTO(Long id, String publicPlace, String cep, Integer number, String city, String state) {
         this.id = id;
         this.publicPlace = publicPlace;
         this.cep = cep;
         this.number = number;
         this.city = city;
         this.state = state;
+    }
+
+    public AddressDTO(Address entity) {
+        id = entity.getId();
+        publicPlace = entity.getPublicPlace();
+        cep = entity.getCep();
+        number = entity.getNumber();
+        city = entity.getCity();
+        state = entity.getState();
     }
 
     public Long getId() {
@@ -79,18 +83,5 @@ public class Address implements Serializable {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Address address = (Address) o;
-        return Objects.equals(id, address.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

@@ -1,5 +1,6 @@
 package com.gabrielsantos.backend.services;
 
+import com.gabrielsantos.backend.dto.UserDTO;
 import com.gabrielsantos.backend.dto.UserMinDTO;
 import com.gabrielsantos.backend.entities.User;
 import com.gabrielsantos.backend.repositories.UserRepository;
@@ -25,9 +26,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserMinDTO findById(Long id) {
+    public UserDTO findById(Long id) {
         Optional<User> obj = repository.findById(id);
         User entity = obj.orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return new UserMinDTO(entity);
+        return new UserDTO(entity);
     }
+
+
 }

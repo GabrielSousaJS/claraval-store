@@ -1,5 +1,6 @@
 package com.gabrielsantos.backend.resources;
 
+import com.gabrielsantos.backend.dto.UserDTO;
 import com.gabrielsantos.backend.dto.UserMinDTO;
 import com.gabrielsantos.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class UserResource {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserMinDTO> findById(@PathVariable Long id) {
-        UserMinDTO dto = service.findById(id);
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+        UserDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 

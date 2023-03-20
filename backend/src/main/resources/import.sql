@@ -12,16 +12,16 @@ INSERT INTO tb_category (name) VALUES ('Books');
 INSERT INTO tb_category (name) VALUES ('Toys and games');
 
 -- Endereços
-INSERT INTO tb_address (public_Place, cep, number, city) VALUES ('Rua Augusta', '01305-100', 1200, 'São Paulo');
-INSERT INTO tb_address (public_Place, cep, number, city) VALUES ('Avenida Atlântica', '22011-010', 1500, 'Rio de Janeiro');
-INSERT INTO tb_address (public_Place, cep, number, city) VALUES ('Rua Sergipe', '30130-170', 800, 'Belo Horizonte');
-INSERT INTO tb_address (public_Place, cep, number, city) VALUES ('Setor Comercial Sul', '70390-901', 3, 'Brasília');
-INSERT INTO tb_address (public_Place, cep, number, city) VALUES ('Rua Visconde do Rio Branco', '80420-210', 1500, 'Curitiba');
-INSERT INTO tb_address (public_Place, cep, number, city) VALUES ('Avenida Beira Mar', '60165-121', 100, 'Fortaleza');
-INSERT INTO tb_address (public_Place, cep, number, city) VALUES ('Rua do Bom Jesus', '50030-170', 200, 'Recife');
-INSERT INTO tb_address (public_Place, cep, number, city) VALUES ('Avenida Oceânica', '40140-130', 300, 'Salvador');
-INSERT INTO tb_address (public_Place, cep, number, city) VALUES ('Rua Bocaiúva', '88015-530', 500, 'Florianópolis');
-INSERT INTO tb_address (public_Place, cep, number, city) VALUES ('Rua da Praia', '90010-230', 1000, 'Porto Alegre');
+INSERT INTO tb_address (public_Place, cep, number, city, state) VALUES ('Rua Augusta', '01305-100', 1200, 'São Paulo', 'São Paulo');
+INSERT INTO tb_address (public_Place, cep, number, city, state) VALUES ('Avenida Atlântica', '22011-010', 1500, 'Rio de Janeiro', 'Rio de Janeiro');
+INSERT INTO tb_address (public_Place, cep, number, city, state) VALUES ('Rua Sergipe', '30130-170', 800, 'Belo Horizonte', 'Minas Gerais');
+INSERT INTO tb_address (public_Place, cep, number, city, state) VALUES ('Setor Comercial Sul', '70390-901', 3, 'Brasília', 'Distrito Federal');
+INSERT INTO tb_address (public_Place, cep, number, city, state) VALUES ('Rua Visconde do Rio Branco', '80420-210', 1500, 'Curitiba', 'Paraná');
+INSERT INTO tb_address (public_Place, cep, number, city, state) VALUES ('Avenida Beira Mar', '60165-121', 100, 'Fortaleza', 'Ceára');
+INSERT INTO tb_address (public_Place, cep, number, city, state) VALUES ('Rua do Bom Jesus', '50030-170', 200, 'Recife', 'Pernambuco');
+INSERT INTO tb_address (public_Place, cep, number, city, state) VALUES ('Avenida Oceânica', '40140-130', 300, 'Salvador', 'Bahia');
+INSERT INTO tb_address (public_Place, cep, number, city, state) VALUES ('Rua Bocaiúva', '88015-530', 500, 'Florianópolis', 'Santa Catarina');
+INSERT INTO tb_address (public_Place, cep, number, city, state) VALUES ('Rua da Praia', '90010-230', 1000, 'Porto Alegre', 'Rio Grande do Sul');
 
 -- Usuários
 INSERT INTO tb_user (name, birth_Date, email, password, address_id) VALUES ('Gabriela Oliveira', TIMESTAMP WITH TIME ZONE '1994-11-18', 'gabriela.oliveira@email.com', '$2a$10$R6Sppkl7ZTrqa0zc5m480.5j5yUJyls/qaRA2g47kuq2MqcjBcHIm', 1);
