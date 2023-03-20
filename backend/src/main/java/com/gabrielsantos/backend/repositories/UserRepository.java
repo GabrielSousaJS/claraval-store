@@ -1,6 +1,7 @@
 package com.gabrielsantos.backend.repositories;
 
 import com.gabrielsantos.backend.entities.User;
+import com.gabrielsantos.backend.entities.UserSeller;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "WHERE :name = '' OR LOWER(obj.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     Page<User> findAllUser(String name, Pageable pageable);
 
+    @Query("SELECT obj FROM UserSeller obj")
+    Page<UserSeller> findAllSellers(Pageable pageable);
 }

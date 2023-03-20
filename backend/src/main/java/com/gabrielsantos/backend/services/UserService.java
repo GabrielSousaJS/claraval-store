@@ -1,8 +1,10 @@
 package com.gabrielsantos.backend.services;
 
+import com.gabrielsantos.backend.dto.SellerDTO;
 import com.gabrielsantos.backend.dto.UserDTO;
 import com.gabrielsantos.backend.dto.UserMinDTO;
 import com.gabrielsantos.backend.entities.User;
+import com.gabrielsantos.backend.entities.UserSeller;
 import com.gabrielsantos.backend.repositories.UserRepository;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +34,10 @@ public class UserService {
         return new UserDTO(entity);
     }
 
+    @Transactional(readOnly = true)
+    public Page<SellerDTO> findAllSellers(Pageable pageable) {
+        Page<UserSeller> page = repository.findAllSellers(pageable);
+        return page.map(SellerDTO::new);
+    }
 
 }
