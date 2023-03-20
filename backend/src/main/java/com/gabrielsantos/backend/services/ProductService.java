@@ -43,4 +43,15 @@ public class ProductService {
         Page<Product> page = repository.findProductsByCategory(category, pageable);
         return page.map(ProductMinDTO::new);
     }
+
+    @Transactional(readOnly = true)
+    public Page<ProductMinDTO> findProductsBySeller(Long sellerId, Pageable pageable) {
+        Page<Product> page = repository.findProductsBySeller(sellerId, pageable);
+
+        if (page.getTotalElements() == 0) {
+            throw new ResourceNotFoundException("There is no product listed for this seller");
+        }
+
+        return page.map(ProductMinDTO::new);
+    }
 }
