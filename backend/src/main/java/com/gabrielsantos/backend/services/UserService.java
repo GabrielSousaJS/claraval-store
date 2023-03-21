@@ -24,13 +24,18 @@ public class UserService {
     @Transactional(readOnly = true)
     public Page<UserMinDTO> findAllPaged(String name, Pageable pageable) {
         Page<User> page = repository.findAllUser(name, pageable);
+
+        if (page.getTotalElements() == 0) {
+            throw new ResourceNotFoundException("User '" + name + "' not found.");
+        }
+
         return page.map(UserMinDTO::new);
     }
 
     @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
         Optional<User> obj = repository.findById(id);
-        User entity = obj.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User entity = obj.orElseThrow(() -> new ResourceNotFoundException("User not found."));
         return new UserDTO(entity);
     }
 

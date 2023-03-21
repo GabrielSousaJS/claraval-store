@@ -4,7 +4,6 @@ import com.gabrielsantos.backend.dto.SellerDTO;
 import com.gabrielsantos.backend.dto.UserDTO;
 import com.gabrielsantos.backend.dto.UserMinDTO;
 import com.gabrielsantos.backend.services.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

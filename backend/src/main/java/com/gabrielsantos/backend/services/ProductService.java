@@ -27,13 +27,18 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Page<ProductMinDTO> findAllPaged(String name, Pageable pageable) {
         Page<Product> page = repository.findAllPaged(name, pageable);
+
+        if (page.getTotalElements() == 0) {
+            throw new ResourceNotFoundException("Product '" + name + "' not found.");
+        }
+
         return page.map(ProductMinDTO::new);
     }
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
         Optional<Product> obj = repository.findById(id);
-        Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Product not found."));
         return new ProductDTO(entity);
     }
 
@@ -41,6 +46,11 @@ public class ProductService {
     public Page<ProductMinDTO> findProductsByCategory(Long categoryId, Pageable pageable) {
         Category category = categoryRepository.getReferenceById(categoryId);
         Page<Product> page = repository.findProductsByCategory(category, pageable);
+
+        if (page.getTotalElements() == 0) {
+            throw new ResourceNotFoundException("No products belong to this category.");
+        }
+
         return page.map(ProductMinDTO::new);
     }
 
@@ -49,7 +59,7 @@ public class ProductService {
         Page<Product> page = repository.findProductsBySeller(sellerId, pageable);
 
         if (page.getTotalElements() == 0) {
-            throw new ResourceNotFoundException("There is no product listed for this seller");
+            throw new ResourceNotFoundException("There is no product listed for this seller.");
         }
 
         return page.map(ProductMinDTO::new);
