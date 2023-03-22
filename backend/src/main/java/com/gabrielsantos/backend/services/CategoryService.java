@@ -3,7 +3,11 @@ package com.gabrielsantos.backend.services;
 import com.gabrielsantos.backend.dto.CategoryDTO;
 import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.repositories.CategoryRepository;
+import com.gabrielsantos.backend.services.exceptions.DatabaseException;
+import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,5 +23,13 @@ public class CategoryService {
     public Page<CategoryDTO> findAllPaged(Pageable pageable) {
         Page<Category> page = repository.findAll(pageable);
         return page.map(CategoryDTO::new);
+    }
+
+    public void deleteById(Long id) {
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Integraty violation");
+        }
     }
 }
