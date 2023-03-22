@@ -40,4 +40,10 @@ public class ProductResource {
         Page<ProductMinDTO> pageDto = service.findProductsBySeller(sellerId, pageable);
         return ResponseEntity.ok().body(pageDto);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        service.DeleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
