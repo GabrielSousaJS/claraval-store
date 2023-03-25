@@ -2,10 +2,10 @@ package com.gabrielsantos.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gabrielsantos.backend.entities.pk.OrderItemPk;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;

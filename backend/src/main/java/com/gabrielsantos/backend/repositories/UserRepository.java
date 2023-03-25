@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    User findByEmail(String email);
+
     @Query("SELECT obj FROM User obj " +
             "WHERE :name = '' OR LOWER(obj.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     Page<User> findAllUser(String name, Pageable pageable);
