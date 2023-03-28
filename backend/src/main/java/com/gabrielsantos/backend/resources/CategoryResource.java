@@ -2,6 +2,9 @@ package com.gabrielsantos.backend.resources;
 
 import com.gabrielsantos.backend.dto.CategoryDTO;
 import com.gabrielsantos.backend.services.CategoryService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
