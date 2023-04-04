@@ -50,7 +50,7 @@ public class SwaggerConfig {
     private ApiInfo metaData() {
         return new ApiInfoBuilder().title("Claraval Store API")
                 .description("\"Spring Boot API para Programação Web\"").version("1.0.0")
-                .contact(new Contact("Gabriel Santos", "https://github.com/GabrielSousaJS", "gabriels.santosx@gmail.com"))
+                .contact(new Contact("Gabriel Santos", "https://github.com/GabrielSousaJS", "https://mail.google.com/"))
                 .build();
     }
 }

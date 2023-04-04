@@ -10,7 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/api/categories")
@@ -28,7 +32,22 @@ public class CategoryResource {
         return ResponseEntity.ok().body(page);
     }
 
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Insert category")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Category created"),
+            @ApiResponse(code = 401, message = "Unauthorized feature"),
+            @ApiResponse(code = 403, message = "Prohibited resource")
+    })
+    public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryDTO dto) {
+        dto = service.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
+    }
+
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete category by Id")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Deleted category"),
