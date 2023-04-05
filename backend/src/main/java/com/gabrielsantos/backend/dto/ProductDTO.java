@@ -1,9 +1,12 @@
 package com.gabrielsantos.backend.dto;
 
+import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.entities.Product;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProductDTO implements Serializable {
     @Serial
@@ -17,6 +20,8 @@ public class ProductDTO implements Serializable {
     private String imgUrl;
 
     private SellerDTO seller;
+
+    private Set<CategoryDTO> categories = new HashSet<>();
 
     public ProductDTO() {
     }
@@ -39,6 +44,11 @@ public class ProductDTO implements Serializable {
         quantity = entity.getQuantity();
         imgUrl = entity.getImgUrl();
         seller = new SellerDTO(entity.getSeller());
+    }
+
+    public ProductDTO(Product entity, Set<Category> categories) {
+        this(entity);
+        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
     }
 
     public Long getId() {
@@ -95,5 +105,9 @@ public class ProductDTO implements Serializable {
 
     public void setSeller(SellerDTO seller) {
         this.seller = seller;
+    }
+
+    public Set<CategoryDTO> getCategories() {
+        return categories;
     }
 }

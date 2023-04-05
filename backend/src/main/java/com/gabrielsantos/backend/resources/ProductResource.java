@@ -11,7 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/api/products")
@@ -64,6 +68,20 @@ public class ProductResource {
     public ResponseEntity<Page<ProductMinDTO>> findProductsBySeller(@PathVariable Long sellerId, Pageable pageable) {
         Page<ProductMinDTO> pageDto = service.findProductsBySeller(sellerId, pageable);
         return ResponseEntity.ok().body(pageDto);
+    }
+
+    @PostMapping
+    @PreAuthorize("hasRole('SELLER')")
+    @ApiOperation(value = "Insert product")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Product created"),
+            @ApiResponse(code = 401, message = "Unathorized feature"),
+            @ApiResponse(code = 403, message = "Prohibited resource")
+    })
+    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
+        dto = service.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
 
     @DeleteMapping(value = "/{id}")
