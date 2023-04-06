@@ -1,10 +1,10 @@
 package com.gabrielsantos.backend.services;
 
+import com.gabrielsantos.backend.dto.CategoryDTO;
 import com.gabrielsantos.backend.dto.ProductDTO;
 import com.gabrielsantos.backend.dto.ProductMinDTO;
 import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.entities.Product;
-import com.gabrielsantos.backend.entities.UserSeller;
 import com.gabrielsantos.backend.repositories.CategoryRepository;
 import com.gabrielsantos.backend.repositories.ProductRepository;
 import com.gabrielsantos.backend.repositories.UserRepository;
@@ -47,7 +47,7 @@ public class ProductService {
     public ProductDTO findById(Long id) {
         Optional<Product> obj = repository.findById(id);
         Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Product not found."));
-        return new ProductDTO(entity);
+        return new ProductDTO(entity, entity.getSeller(), entity.getCategories());
     }
 
     @Transactional(readOnly = true)
@@ -95,7 +95,13 @@ public class ProductService {
         entity.setPrice(dto.getPrice());
         entity.setQuantity(dto.getQuantity());
         entity.setImgUrl(dto.getImgUrl());
-        entity.setSeller((UserSeller) userRepository.getReferenceById(dto.getSeller().getId()));
-        dto.getCategories().stream().map(cat -> entity.getCategories().add(categoryRepository.getReferenceById(cat.getId()))).collect(Collectors.toList());
+
+        entity.getCategories().clear();
+
+        for (CategoryDTO catDto : dto.getCategories()) {
+            Category category = categoryRepository.getReferenceById(catDto.getId());
+            entity.getCategories().add(category);
+        }
+
     }
 }

@@ -24,16 +24,16 @@ INSERT INTO addresses (public_Place, cep, number, city, state, created_At) VALUE
 INSERT INTO addresses (public_Place, cep, number, city, state, created_At) VALUES ('Rua da Praia', '90010-230', 1000, 'Porto Alegre', 'Rio Grande do Sul', NOW());
 
 -- Usuários
-INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Gabriela Oliveira', TIMESTAMP WITH TIME ZONE '1994-11-18', 'gabriela.oliveira@email.com', '$2a$10$R6Sppkl7ZTrqa0zc5m480.5j5yUJyls/qaRA2g47kuq2MqcjBcHIm', 1, NOW());
-INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Marcelo Costa', TIMESTAMP WITH TIME ZONE '1988-07-06', 'marcelo.costa@email.com', '$2a$10$0JrJjMHhgursxEHrA8od5.BpakabJfQHIzmM.NMTw263X/AKCKFvK', 2, NOW());
-INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Amanda Almeida', TIMESTAMP WITH TIME ZONE '1990-02-28', 'amanda.almeida@email.com', '$2a$10$nKt4ooP6e3axe7iXqytjcOREMdXbBonSgm1rhBciD/0K60ZUMefJq', 3, NOW());
-INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Renato Nunes', TIMESTAMP WITH TIME ZONE '1995-05-11', 'renato.nunes@email.com', '$2a$10$i9U7Ro3FlP9ct8BmftASU.qRN4sMiOErOnNYdoAI6W3ZXKx88lyTS', 4, NOW());
-INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Maria Santana', TIMESTAMP WITH TIME ZONE '1992-09-02', 'maria.santana@email.com', '$2a$10$QRt.m6epO0umO/1c.7zFQu/txwMrIP3YaOea7k2BJJAmcjqx.t0Wq', 5, NOW());
-INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('João Carvalho', TIMESTAMP WITH TIME ZONE '1989-12-15', 'joao.carvalho@email.com', '$2a$10$wwJgEPVqmoJ34kKJLMTjnOa5IAFfppqgM1THjcCGPktOR/fKV41DK', 6, NOW());
-INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Natália Silveira', TIMESTAMP WITH TIME ZONE '1999-03-25', 'natalia.silveira@email.com', '$2a$10$f5c1GCc3Yga6yaMIgMFVtuQBa9kGB1FviCi4pMGpd1AH/plpVxJ/q', 7, NOW());
-INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Ricardo Ferreira', TIMESTAMP WITH TIME ZONE '1991-06-19', 'ricardo.ferreira@email.com', '$2a$10$XPvvBZ4se.jDXC5fQSWHt.cbUPif4nWY.mmR4.h6hEMl0L3pyZ1Be', 8, NOW());
-INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Fernanda Mendes', TIMESTAMP WITH TIME ZONE '1994-08-30', 'fernanda.mendes@email.com', '$2a$10$NvZa12kC5T27/95FYN2hX.Rm./qdIf2TA5SzKFaKU1TK.bwY7EsMu', 9, NOW());
-INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Lucas Barbosa', TIMESTAMP WITH TIME ZONE '1998-02-07', 'lucas.barbosa@email.com', '$2a$10$8LNr5i7sogw79M71yHrMceDfXiS8JLcX95gLSynK091nfHQMkbPHe', 10, NOW());
+INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Gabriela Oliveira', TIMESTAMP WITH TIME ZONE '1994-11-18', 'gabriela.oliveira@gmail.com', '$2a$10$R6Sppkl7ZTrqa0zc5m480.5j5yUJyls/qaRA2g47kuq2MqcjBcHIm', 1, NOW());
+INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Marcelo Costa', TIMESTAMP WITH TIME ZONE '1988-07-06', 'marcelo.costa@gmail.com', '$2a$10$0JrJjMHhgursxEHrA8od5.BpakabJfQHIzmM.NMTw263X/AKCKFvK', 2, NOW());
+INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Amanda Almeida', TIMESTAMP WITH TIME ZONE '1990-02-28', 'amanda.almeida@gmail.com', '$2a$10$nKt4ooP6e3axe7iXqytjcOREMdXbBonSgm1rhBciD/0K60ZUMefJq', 3, NOW());
+INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Renato Nunes', TIMESTAMP WITH TIME ZONE '1995-05-11', 'renato.nunes@gmail.com', '$2a$10$i9U7Ro3FlP9ct8BmftASU.qRN4sMiOErOnNYdoAI6W3ZXKx88lyTS', 4, NOW());
+INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Maria Santana', TIMESTAMP WITH TIME ZONE '1992-09-02', 'maria.santana@gmail.com', '$2a$10$QRt.m6epO0umO/1c.7zFQu/txwMrIP3YaOea7k2BJJAmcjqx.t0Wq', 5, NOW());
+INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('João Carvalho', TIMESTAMP WITH TIME ZONE '1989-12-15', 'joao.carvalho@gmail.com', '$2a$10$wwJgEPVqmoJ34kKJLMTjnOa5IAFfppqgM1THjcCGPktOR/fKV41DK', 6, NOW());
+INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Natália Silveira', TIMESTAMP WITH TIME ZONE '1999-03-25', 'natalia.silveira@gmail.com', '$2a$10$f5c1GCc3Yga6yaMIgMFVtuQBa9kGB1FviCi4pMGpd1AH/plpVxJ/q', 7, NOW());
+INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Ricardo Ferreira', TIMESTAMP WITH TIME ZONE '1991-06-19', 'ricardo.ferreira@gmail.com', '$2a$10$XPvvBZ4se.jDXC5fQSWHt.cbUPif4nWY.mmR4.h6hEMl0L3pyZ1Be', 8, NOW());
+INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Fernanda Mendes', TIMESTAMP WITH TIME ZONE '1994-08-30', 'fernanda.mendes@gmail.com', '$2a$10$NvZa12kC5T27/95FYN2hX.Rm./qdIf2TA5SzKFaKU1TK.bwY7EsMu', 9, NOW());
+INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Lucas Barbosa', TIMESTAMP WITH TIME ZONE '1998-02-07', 'lucas.barbosa@gmail.com', '$2a$10$8LNr5i7sogw79M71yHrMceDfXiS8JLcX95gLSynK091nfHQMkbPHe', 10, NOW());
 
 -- Administrador
 INSERT INTO tb_user_privilege (user_id, privilege_id) VALUES (1, 1);

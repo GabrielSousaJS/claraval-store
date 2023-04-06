@@ -2,6 +2,7 @@ package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.entities.Product;
+import com.gabrielsantos.backend.entities.UserSeller;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -43,11 +44,16 @@ public class ProductDTO implements Serializable {
         price = entity.getPrice();
         quantity = entity.getQuantity();
         imgUrl = entity.getImgUrl();
-        seller = new SellerDTO(entity.getSeller());
     }
 
     public ProductDTO(Product entity, Set<Category> categories) {
         this(entity);
+        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
+    }
+
+    public ProductDTO(Product entity, UserSeller seller, Set<Category> categories) {
+        this(entity);
+        this.seller = new SellerDTO(seller);
         categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
     }
 
