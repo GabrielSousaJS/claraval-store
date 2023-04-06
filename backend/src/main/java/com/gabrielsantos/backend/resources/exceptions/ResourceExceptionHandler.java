@@ -1,7 +1,9 @@
 package com.gabrielsantos.backend.resources.exceptions;
 
 import com.gabrielsantos.backend.services.exceptions.DatabaseException;
+import com.gabrielsantos.backend.services.exceptions.ForbiddenException;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
+import com.gabrielsantos.backend.services.exceptions.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -33,5 +35,17 @@ public class ResourceExceptionHandler {
         err.setError(e.getMessage());
         err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<OAuthCustomError> forbidden(ForbiddenException e, HttpServletRequest request) {
+        OAuthCustomError err = new OAuthCustomError("Forbidden", e.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<OAuthCustomError> unathorized(UnauthorizedException e, HttpServletRequest request) {
+        OAuthCustomError err = new OAuthCustomError("Unauthorized", e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
     }
 }

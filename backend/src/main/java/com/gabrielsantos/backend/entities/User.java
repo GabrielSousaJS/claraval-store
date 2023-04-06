@@ -115,6 +115,16 @@ public class User implements UserDetails, Serializable {
         return privileges;
     }
 
+    public boolean hasPrivilege(String privilegeName) {
+        for (Privilege privilege : privileges) {
+            if (privilege.getAuthority().equals(privilegeName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     @PrePersist
     public void prePersist() {
         createdAt = Instant.now();
