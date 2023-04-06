@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -36,6 +37,11 @@ public class Product implements Serializable {
     @ManyToOne
     @JoinColumn(name = "seller_id")
     private UserSeller seller;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updatedAt;
 
     public Product() {
     }
@@ -108,6 +114,16 @@ public class Product implements Serializable {
 
     public void setSeller(UserSeller seller) {
         this.seller = seller;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
     }
 
     @Override

@@ -43,6 +43,11 @@ public class User implements UserDetails, Serializable {
             inverseJoinColumns = @JoinColumn(name = "privilege_id"))
     private Set<Privilege> privileges = new HashSet<>();
 
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updatedAt;
+
     public User() {
     }
 
@@ -108,6 +113,16 @@ public class User implements UserDetails, Serializable {
 
     public Set<Privilege> getPrivileges() {
         return privileges;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
     }
 
     @Override
