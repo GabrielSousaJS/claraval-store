@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "tb_user")
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails, Serializable {
     @Serial

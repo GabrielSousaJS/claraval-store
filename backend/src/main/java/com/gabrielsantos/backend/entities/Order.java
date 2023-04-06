@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_order")
+@Table(name = "orders")
 public class Order implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

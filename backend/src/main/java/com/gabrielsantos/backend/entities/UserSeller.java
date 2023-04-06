@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_userseller")
+@Table(name = "sellers")
 public class UserSeller extends User {
 
     private static final long serialVersionUID = 1L;

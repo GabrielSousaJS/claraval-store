@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_category")
+@Table(name = "categories")
 public class Category implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

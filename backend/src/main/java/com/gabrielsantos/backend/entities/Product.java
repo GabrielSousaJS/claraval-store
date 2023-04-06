@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_product")
+@Table(name = "products")
 public class Product implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -29,7 +29,7 @@ public class Product implements Serializable {
     private String imgUrl;
 
     @ManyToMany
-    @JoinTable(name = "tb_product_category",
+    @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
