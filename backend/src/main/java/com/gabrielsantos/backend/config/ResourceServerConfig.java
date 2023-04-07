@@ -30,9 +30,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private JwtTokenStore tokenStore;
 
-    private static final String[] PUBLIC = { "/api/oauth/token", "/h2-console/**" };
-
-    private static final String[] PUBLIC_GET = { "/api/products/**", "/api/categories/**" };
+    private static final String[] PUBLIC = { "/api/oauth/token", "/h2-console/**", "/api/products/**", "/api/categories/**" };
 
     private static final String[] SWAGGER = {
             "/v2/api-docs",
@@ -57,7 +55,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         }
 
         http.authorizeRequests().antMatchers(PUBLIC).permitAll()
-                .antMatchers(HttpMethod.GET, PUBLIC_GET).permitAll()
+                .antMatchers(HttpMethod.GET, PUBLIC).permitAll()
                 .antMatchers(SWAGGER).permitAll()
                 .anyRequest()
                 .authenticated();
