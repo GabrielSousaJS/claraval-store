@@ -86,7 +86,7 @@ public class ProductResource {
     }
 
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete product")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Deleted product"),

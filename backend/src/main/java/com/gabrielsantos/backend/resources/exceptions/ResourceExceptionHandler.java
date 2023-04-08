@@ -1,9 +1,6 @@
 package com.gabrielsantos.backend.resources.exceptions;
 
-import com.gabrielsantos.backend.services.exceptions.DatabaseException;
-import com.gabrielsantos.backend.services.exceptions.ForbiddenException;
-import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
-import com.gabrielsantos.backend.services.exceptions.UnauthorizedException;
+import com.gabrielsantos.backend.services.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -41,7 +38,7 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        HttpStatus status = HttpStatus.PRECONDITION_FAILED;
         ValidationError err = new ValidationError();
         err.setTimestamp(Instant.now());
         err.setStatus(status.value());
@@ -52,6 +49,28 @@ public class ResourceExceptionHandler {
             err.addError(f.getField(), f.getDefaultMessage());
         }
 
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DuplicateDataException.class)
+    public ResponseEntity<StandardError> duplicateData(DuplicateDataException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.PRECONDITION_FAILED;
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DifferentSellerLoggedException.class)
+    public ResponseEntity<StandardError> sellerLoggedIn(DifferentSellerLoggedException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError(e.getMessage());
+        err.setPath(request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
 

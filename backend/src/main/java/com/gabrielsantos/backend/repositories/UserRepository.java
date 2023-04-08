@@ -11,6 +11,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
+    @Query("SELECT obj FROM UserSeller obj " +
+            "WHERE :email = obj.email")
+    UserSeller findSellerByEmail(String email);
+
     @Query("SELECT obj FROM User obj " +
             "WHERE :name = '' OR LOWER(obj.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     Page<User> findAllUser(String name, Pageable pageable);

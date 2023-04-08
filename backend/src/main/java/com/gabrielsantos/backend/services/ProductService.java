@@ -5,20 +5,25 @@ import com.gabrielsantos.backend.dto.ProductDTO;
 import com.gabrielsantos.backend.dto.ProductMinDTO;
 import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.entities.Product;
+import com.gabrielsantos.backend.entities.User;
+import com.gabrielsantos.backend.entities.UserSeller;
 import com.gabrielsantos.backend.repositories.CategoryRepository;
 import com.gabrielsantos.backend.repositories.ProductRepository;
 import com.gabrielsantos.backend.repositories.UserRepository;
 import com.gabrielsantos.backend.services.exceptions.DatabaseException;
+import com.gabrielsantos.backend.services.exceptions.DifferentSellerLoggedException;
+import com.gabrielsantos.backend.services.exceptions.DuplicateDataException;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -31,6 +36,9 @@ public class ProductService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuthService authService;
 
     @Transactional(readOnly = true)
     public Page<ProductMinDTO> findAllPaged(String name, Pageable pageable) {
@@ -76,16 +84,25 @@ public class ProductService {
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
-        copyDtoToEntity(entity, dto);
-        entity = repository.save(entity);
-        return new ProductDTO(entity, entity.getCategories());
+
+        isTheSellerLoggedIn(dto);
+
+        if (!productExists(dto.getName())) {
+            copyDtoToEntity(entity, dto);
+            entity = repository.save(entity);
+            return new ProductDTO(entity, entity.getCategories());
+        } else {
+            throw new DuplicateDataException("The product is already registered.");
+        }
     }
 
     public void DeleteById(Long id) {
         try {
             repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Product not found.");
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Integraty violation");
+            throw new DatabaseException("Integraty violation.");
         }
     }
 
@@ -95,6 +112,7 @@ public class ProductService {
         entity.setPrice(dto.getPrice());
         entity.setQuantity(dto.getQuantity());
         entity.setImgUrl(dto.getImgUrl());
+        entity.setSeller(userRepository.findSellerByEmail(dto.getSeller().getEmail()));
 
         entity.getCategories().clear();
 
@@ -103,5 +121,18 @@ public class ProductService {
             entity.getCategories().add(category);
         }
 
+    }
+
+    private boolean productExists(String name) {
+        Product entity = repository.findByName(name);
+        return entity != null;
+    }
+
+    private void isTheSellerLoggedIn(ProductDTO dto) {
+        User user = authService.authenticated();
+        if (!dto.getSeller().getEmail().equals(user.getEmail())) {
+            throw new DifferentSellerLoggedException("The seller who is inserting the product is different from the " +
+                    "one logged in.");
+        }
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
+    Product findByName(String name);
+
     @Query("SELECT obj FROM Product obj " +
             "WHERE :name = '' OR LOWER(obj.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     Page<Product> findAllPaged(String name, Pageable pageable);
