@@ -2,6 +2,8 @@ package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.Address;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -10,10 +12,20 @@ public class AddressDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @NotBlank(message = "The field cannot be empty or blank.")
     private String publicPlace;
+
+    @NotBlank(message = "The field cannot be empty or blank.")
     private String cep;
+
+    @Positive(message = "The number must be positive other than zero.")
     private Integer number;
+
+    @NotBlank(message = "The field cannot be empty or blank.")
     private String city;
+
+    @NotBlank(message = "The field cannot be empty or blank.")
     private String state;
 
     public AddressDTO() {

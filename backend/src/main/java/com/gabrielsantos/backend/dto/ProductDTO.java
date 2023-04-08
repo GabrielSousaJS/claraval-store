@@ -4,6 +4,10 @@ import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.entities.Product;
 import com.gabrielsantos.backend.entities.UserSeller;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -14,14 +18,26 @@ public class ProductDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @NotBlank(message = "The field cannot be empty or blank.")
     private String name;
+
+    @NotBlank(message = "The field cannot be empty or blank.")
     private String description;
+
+    @Positive(message = "This value cannot be negative or equal to zero.")
     private Double price;
+
+    @Positive(message = "This value cannot be negative or equal to zero.")
     private Integer quantity;
+
+    @NotNull(message = "This field cannot be null.")
     private String imgUrl;
 
+    @NotNull(message = "The product must belong to a seller.")
     private SellerDTO seller;
 
+    @NotEmpty(message = "The product must belong to at least one category.")
     private Set<CategoryDTO> categories = new HashSet<>();
 
     public ProductDTO() {

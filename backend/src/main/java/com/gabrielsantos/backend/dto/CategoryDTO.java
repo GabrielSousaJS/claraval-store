@@ -2,6 +2,7 @@ package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.Category;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -10,6 +11,8 @@ public class CategoryDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @NotBlank(message = "The field cannot be empty or blank.")
     private String name;
 
     public CategoryDTO() {

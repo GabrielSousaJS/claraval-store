@@ -2,6 +2,8 @@ package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.UserSeller;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -10,7 +12,11 @@ public class SellerDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @Email(message = "Please provide a valid email.")
     private String email;
+
+    @NotBlank(message = "This field cannot be empty or blank.")
     private String companyName;
 
     public SellerDTO() {

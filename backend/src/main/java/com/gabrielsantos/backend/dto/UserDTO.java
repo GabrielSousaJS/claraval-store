@@ -3,6 +3,10 @@ package com.gabrielsantos.backend.dto;
 import com.gabrielsantos.backend.entities.Address;
 import com.gabrielsantos.backend.entities.User;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
@@ -12,10 +16,17 @@ public class UserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @NotBlank(message = "This field cannot be empty or blank.")
     private String name;
+
+    @Past(message = "The date of birth must be in the past.")
     private Instant birthDate;
+
+    @Email(message = "Please provide a valid email.")
     private String email;
 
+    @NotNull(message = "The user must have a registered address.")
     private AddressDTO address;
 
     public UserDTO() {
