@@ -1,5 +1,6 @@
 package com.gabrielsantos.backend.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -13,6 +14,7 @@ public class UserSeller extends User {
 
     private static final long serialVersionUID = 1L;
 
+    @Column(unique = true)
     private String companyName;
 
     @OneToMany(mappedBy = "seller")

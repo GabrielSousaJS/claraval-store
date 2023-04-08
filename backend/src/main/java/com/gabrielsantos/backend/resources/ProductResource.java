@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -78,7 +79,7 @@ public class ProductResource {
             @ApiResponse(code = 401, message = "Unathorized feature"),
             @ApiResponse(code = 403, message = "Prohibited resource")
     })
-    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto) {
+    public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
@@ -92,7 +93,7 @@ public class ProductResource {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 403, message = "Prohibited action")
     })
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@Valid @PathVariable Long id) {
         service.DeleteById(id);
         return ResponseEntity.noContent().build();
     }
