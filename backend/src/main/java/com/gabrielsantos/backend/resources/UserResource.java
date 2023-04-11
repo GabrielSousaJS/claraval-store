@@ -2,6 +2,7 @@ package com.gabrielsantos.backend.resources;
 
 import com.gabrielsantos.backend.dto.SellerDTO;
 import com.gabrielsantos.backend.dto.UserDTO;
+import com.gabrielsantos.backend.dto.UserInsertDTO;
 import com.gabrielsantos.backend.dto.UserMinDTO;
 import com.gabrielsantos.backend.services.UserService;
 import io.swagger.annotations.Api;
@@ -13,6 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/api/users")
@@ -59,4 +64,16 @@ public class UserResource {
         return ResponseEntity.ok().body(pageDto);
     }
 
+    @PostMapping
+    @ApiOperation(value = "Insert user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "User created"),
+            @ApiResponse(code = 409, message = "Conflict when making use of the resource."),
+            @ApiResponse(code = 412, message = "Precondition not met")
+    })
+    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto) {
+        UserDTO newDto = service.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(newDto.getId()).toUri();
+        return ResponseEntity.created(uri).body(newDto);
+    }
 }

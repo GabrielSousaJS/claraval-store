@@ -1,8 +1,7 @@
 package com.gabrielsantos.backend.services;
 
-import com.gabrielsantos.backend.dto.SellerDTO;
-import com.gabrielsantos.backend.dto.UserDTO;
-import com.gabrielsantos.backend.dto.UserMinDTO;
+import com.gabrielsantos.backend.dto.*;
+import com.gabrielsantos.backend.entities.Address;
 import com.gabrielsantos.backend.entities.User;
 import com.gabrielsantos.backend.entities.UserSeller;
 import com.gabrielsantos.backend.repositories.UserRepository;
@@ -15,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +27,13 @@ public class UserService implements UserDetailsService {
     private static Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private AddressService addressService;
 
     @Transactional(readOnly = true)
     public Page<UserMinDTO> findAllPaged(String name, Pageable pageable) {
@@ -51,6 +57,22 @@ public class UserService implements UserDetailsService {
     public Page<SellerDTO> findAllSellers(Pageable pageable) {
         Page<UserSeller> page = repository.findAllSellers(pageable);
         return page.map(SellerDTO::new);
+    }
+
+    @Transactional
+    public UserDTO insert(UserInsertDTO dto) {
+        User entity = new User();
+        copyDtoToEntityUser(entity, dto);
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        entity = repository.save(entity);
+        return new UserDTO(entity);
+    }
+
+    private void copyDtoToEntityUser(User entity, UserDTO dto) {
+        entity.setName(dto.getName());
+        entity.setBirthDate(dto.getBirthDate());
+        entity.setEmail(dto.getEmail());
+        entity.setAddress(addressService.copyDtoToEntity(dto));
     }
 
     @Override
