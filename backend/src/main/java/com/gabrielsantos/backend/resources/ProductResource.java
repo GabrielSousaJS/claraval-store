@@ -77,7 +77,9 @@ public class ProductResource {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Product created"),
             @ApiResponse(code = 401, message = "Unathorized feature"),
-            @ApiResponse(code = 403, message = "Prohibited resource")
+            @ApiResponse(code = 403, message = "Prohibited resource"),
+            @ApiResponse(code = 409, message = "Conflict when making use of the resource."),
+            @ApiResponse(code = 412, message = "Precondition not met.")
     })
     public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
         dto = service.insert(dto);

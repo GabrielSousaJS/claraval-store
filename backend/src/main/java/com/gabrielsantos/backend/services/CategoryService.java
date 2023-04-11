@@ -44,7 +44,7 @@ public class CategoryService {
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Category not found.");
         }  catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Integraty violation");
+            throw new DatabaseException("The category cannot be deleted. There are products that belong to her.");
         }
     }
 
