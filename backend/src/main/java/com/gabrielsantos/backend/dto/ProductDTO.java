@@ -3,6 +3,8 @@ package com.gabrielsantos.backend.dto;
 import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.entities.Product;
 import com.gabrielsantos.backend.entities.UserSeller;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -17,27 +19,35 @@ public class ProductDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Getter @Setter
     private Long id;
 
     @NotBlank(message = "The field cannot be empty or blank.")
+    @Getter @Setter
     private String name;
 
     @NotBlank(message = "The field cannot be empty or blank.")
+    @Getter @Setter
     private String description;
 
     @Positive(message = "This value cannot be negative or equal to zero.")
+    @Getter @Setter
     private Double price;
 
     @Positive(message = "This value cannot be negative or equal to zero.")
+    @Getter @Setter
     private Integer quantity;
 
     @NotNull(message = "This field cannot be null.")
+    @Getter @Setter
     private String imgUrl;
 
     @NotNull(message = "The product must belong to a seller.")
+    @Getter @Setter
     private SellerDTO seller;
 
     @NotEmpty(message = "The product must belong to at least one category.")
+    @Getter
     private Set<CategoryDTO> categories = new HashSet<>();
 
     public ProductDTO() {
@@ -72,65 +82,5 @@ public class ProductDTO implements Serializable {
         this(entity);
         this.seller = new SellerDTO(seller);
         categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public SellerDTO getSeller() {
-        return seller;
-    }
-
-    public void setSeller(SellerDTO seller) {
-        this.seller = seller;
-    }
-
-    public Set<CategoryDTO> getCategories() {
-        return categories;
     }
 }

@@ -2,6 +2,8 @@ package com.gabrielsantos.backend.entities.pk;
 
 import com.gabrielsantos.backend.entities.Order;
 import com.gabrielsantos.backend.entities.Product;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
@@ -17,27 +19,13 @@ public class OrderItemPk implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @Getter @Setter
     private Order order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @Getter @Setter
     private Product product;
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
 
     @Override
     public boolean equals(Object o) {

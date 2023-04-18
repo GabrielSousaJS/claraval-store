@@ -1,19 +1,18 @@
 package com.gabrielsantos.backend.entities.enums;
 
+import lombok.Getter;
+
 public enum PaymentMethod {
 
     PIX(1),
     CARD(2),
     BANK_SLIP(3);
 
+    @Getter
     private int code;
 
     PaymentMethod(int code) {
         this.code = code;
-    }
-
-    public int getCode() {
-        return code;
     }
 
     public static PaymentMethod valueOf(int code) {

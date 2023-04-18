@@ -1,6 +1,8 @@
 package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.Address;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -11,21 +13,27 @@ public class AddressDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Getter @Setter
     private Long id;
 
     @NotBlank(message = "The field cannot be empty or blank.")
+    @Getter @Setter
     private String publicPlace;
 
     @NotBlank(message = "The field cannot be empty or blank.")
+    @Getter @Setter
     private String cep;
 
     @Positive(message = "The number must be positive other than zero.")
+    @Getter @Setter
     private Integer number;
 
     @NotBlank(message = "The field cannot be empty or blank.")
+    @Getter @Setter
     private String city;
 
     @NotBlank(message = "The field cannot be empty or blank.")
+    @Getter @Setter
     private String state;
 
     public AddressDTO() {
@@ -47,53 +55,5 @@ public class AddressDTO implements Serializable {
         number = entity.getNumber();
         city = entity.getCity();
         state = entity.getState();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getPublicPlace() {
-        return publicPlace;
-    }
-
-    public void setPublicPlace(String publicPlace) {
-        this.publicPlace = publicPlace;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 }

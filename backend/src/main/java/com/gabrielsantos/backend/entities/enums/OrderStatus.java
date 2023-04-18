@@ -1,5 +1,7 @@
 package com.gabrielsantos.backend.entities.enums;
 
+import lombok.Getter;
+
 public enum OrderStatus {
 
     WAITING_PAYMENT(1),
@@ -8,14 +10,11 @@ public enum OrderStatus {
     DELIVERED(4),
     CANCELED(5);
 
+    @Getter
     private int code;
 
     OrderStatus(int code) {
         this.code = code;
-    }
-
-    public int getCode() {
-        return code;
     }
 
     public static OrderStatus valueOf(int code) {

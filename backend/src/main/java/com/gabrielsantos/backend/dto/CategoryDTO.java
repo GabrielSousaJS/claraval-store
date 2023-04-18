@@ -1,6 +1,8 @@
 package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.Category;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serial;
@@ -10,9 +12,11 @@ public class CategoryDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Getter @Setter
     private Long id;
 
     @NotBlank(message = "The field cannot be empty or blank.")
+    @Getter @Setter
     private String name;
 
     public CategoryDTO() {
@@ -26,21 +30,5 @@ public class CategoryDTO implements Serializable {
     public CategoryDTO(Category entity) {
         id = entity.getId();
         name = entity.getName();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

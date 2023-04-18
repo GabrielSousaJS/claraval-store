@@ -1,6 +1,8 @@
 package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.UserSeller;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -11,12 +13,15 @@ public class SellerDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Getter @Setter
     private Long id;
 
     @Email(message = "Please provide a valid email.")
+    @Getter @Setter
     private String email;
 
     @NotBlank(message = "This field cannot be empty or blank.")
+    @Getter @Setter
     private String companyName;
 
     public SellerDTO() {
@@ -32,29 +37,5 @@ public class SellerDTO implements Serializable {
         id = entity.getId();
         email = entity.getEmail();
         companyName = entity.getCompanyName();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
     }
 }

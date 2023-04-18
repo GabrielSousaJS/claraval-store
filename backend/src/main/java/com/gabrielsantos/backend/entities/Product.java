@@ -1,6 +1,7 @@
 package com.gabrielsantos.backend.entities;
 
-import org.springframework.data.annotation.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -16,26 +17,33 @@ public class Product implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @javax.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter @Setter
     private Long id;
 
     @Column(unique = true)
+    @Getter @Setter
     private String name;
+    @Getter @Setter
     private String description;
+    @Getter @Setter
     private Double price;
+    @Getter @Setter
     private Integer quantity;
+    @Getter @Setter
     private String imgUrl;
 
     @ManyToMany
     @JoinTable(name = "product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @Getter
     private Set<Category> categories = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
+    @Getter @Setter
     private UserSeller seller;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
@@ -53,66 +61,6 @@ public class Product implements Serializable {
         this.price = price;
         this.quantity = quantity;
         this.imgUrl = imgUrl;
-        this.seller = seller;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
-    public UserSeller getSeller() {
-        return seller;
-    }
-
-    public void setSeller(UserSeller seller) {
         this.seller = seller;
     }
 

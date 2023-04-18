@@ -1,6 +1,8 @@
 package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,15 +15,19 @@ public class UserMinDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Getter @Setter
     private Long id;
 
     @NotBlank(message = "This field cannot be empty or blank.")
+    @Getter @Setter
     private String name;
 
     @Past(message = "The date of birth must be in the past.")
+    @Getter @Setter
     private Instant birthDate;
 
     @Email(message = "Please provide a valid email.")
+    @Getter @Setter
     private String email;
 
     public UserMinDTO() {
@@ -39,37 +45,5 @@ public class UserMinDTO implements Serializable {
         name = entity.getName();
         birthDate = entity.getBirthDate();
         email = entity.getEmail();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Instant getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Instant birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

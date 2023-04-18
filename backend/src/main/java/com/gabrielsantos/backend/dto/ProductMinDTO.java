@@ -1,6 +1,8 @@
 package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.Product;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,15 +14,19 @@ public class ProductMinDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Getter @Setter
     private Long id;
 
     @NotBlank(message = "The field cannot be empty or blank.")
+    @Getter @Setter
     private String name;
 
     @Positive(message = "This value cannot be negative or equal to zero.")
+    @Getter @Setter
     private Double price;
 
     @NotNull(message = "This field cannot be null.")
+    @Getter @Setter
     private String imgUrl;
 
     public ProductMinDTO() {
@@ -38,37 +44,5 @@ public class ProductMinDTO implements Serializable {
         name = entity.getName();
         price = entity.getPrice();
         imgUrl = entity.getImgUrl();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
     }
 }

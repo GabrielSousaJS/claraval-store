@@ -2,7 +2,8 @@ package com.gabrielsantos.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gabrielsantos.backend.entities.enums.PaymentMethod;
-import org.springframework.data.annotation.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -16,12 +17,13 @@ public class Payment implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @javax.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter @Setter
     private Long id;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    @Getter @Setter
     private Instant moment;
 
     private Integer paymentMethod;
@@ -41,22 +43,6 @@ public class Payment implements Serializable {
         this.order = order;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Instant getMoment() {
-        return moment;
-    }
-
-    public void setMoment(Instant moment) {
-        this.moment = moment;
-    }
-
     public PaymentMethod getPaymentMethod() {
         return PaymentMethod.valueOf(paymentMethod);
     }
@@ -65,14 +51,6 @@ public class Payment implements Serializable {
         if (paymentMethod != null) {
             this.paymentMethod = paymentMethod.getCode();
         }
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
     }
 
     @Override

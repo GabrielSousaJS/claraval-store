@@ -1,6 +1,8 @@
 package com.gabrielsantos.backend.entities;
 
 import com.gabrielsantos.backend.entities.enums.OrderStatus;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
@@ -20,20 +22,25 @@ public class Order implements Serializable {
     @javax.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter @Setter
     private Long id;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    @Getter @Setter
     private Instant moment;
     private Integer orderStatus;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
+    @Getter @Setter
     private User client;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @Getter @Setter
     private Payment payment;
 
     @OneToMany(mappedBy = "id.order")
+    @Getter
     private Set<OrderItem> items = new HashSet<>();
 
     public Order() {
@@ -46,22 +53,6 @@ public class Order implements Serializable {
         this.client = client;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Instant getMoment() {
-        return moment;
-    }
-
-    public void setMoment(Instant moment) {
-        this.moment = moment;
-    }
-
     public OrderStatus getOrderStatus() {
         return OrderStatus.valueOf(orderStatus);
     }
@@ -70,26 +61,6 @@ public class Order implements Serializable {
         if (orderStatus != null) {
             this.orderStatus = orderStatus.getCode();
         }
-    }
-
-    public User getClient() {
-        return client;
-    }
-
-    public void setClient(User client) {
-        this.client = client;
-    }
-
-    public Payment getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
-
-    public Set<OrderItem> getItems() {
-        return items;
     }
 
     public Double getTotal() {

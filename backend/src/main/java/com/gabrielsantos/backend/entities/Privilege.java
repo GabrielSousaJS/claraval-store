@@ -1,6 +1,7 @@
 package com.gabrielsantos.backend.entities;
 
-import org.springframework.data.annotation.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -13,12 +14,13 @@ public class Privilege implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @javax.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter @Setter
     private Long id;
 
     @Column(unique = true)
+    @Getter @Setter
     private String authority;
 
     public Privilege() {
@@ -26,22 +28,6 @@ public class Privilege implements Serializable {
 
     public Privilege(Long id, String authority) {
         this.id = id;
-        this.authority = authority;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(String authority) {
         this.authority = authority;
     }
 
