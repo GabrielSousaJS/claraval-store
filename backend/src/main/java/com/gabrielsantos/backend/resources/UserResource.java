@@ -1,9 +1,6 @@
 package com.gabrielsantos.backend.resources;
 
-import com.gabrielsantos.backend.dto.SellerDTO;
-import com.gabrielsantos.backend.dto.UserDTO;
-import com.gabrielsantos.backend.dto.UserInsertDTO;
-import com.gabrielsantos.backend.dto.UserMinDTO;
+import com.gabrielsantos.backend.dto.*;
 import com.gabrielsantos.backend.services.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -65,14 +62,22 @@ public class UserResource {
     }
 
     @PostMapping
-    @ApiOperation(value = "Insert user")
+    @ApiOperation(value = "Insert client")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "User created"),
-            @ApiResponse(code = 409, message = "Conflict when making use of the resource."),
+            @ApiResponse(code = 201, message = "Client created"),
+            @ApiResponse(code = 409, message = "Conflict when making use of the resource"),
             @ApiResponse(code = 412, message = "Precondition not met")
     })
-    public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserInsertDTO dto) {
-        UserDTO newDto = service.insert(dto);
+    public ResponseEntity<UserDTO> insertClient(@Valid @RequestBody UserInsertDTO dto) {
+        UserDTO newDto = service.insertClient(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(newDto.getId()).toUri();
+        return ResponseEntity.created(uri).body(newDto);
+    }
+
+    @PostMapping(value = "/profile/seller")
+    @ApiOperation(value = "Insert seller")
+    public ResponseEntity<SellerDTO> insertSeller(@Valid @RequestBody SellerInsertDTO dto) {
+        SellerDTO newDto = service.insertSeller(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(newDto.getId()).toUri();
         return ResponseEntity.created(uri).body(newDto);
     }

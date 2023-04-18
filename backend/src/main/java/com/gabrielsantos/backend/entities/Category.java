@@ -1,7 +1,5 @@
 package com.gabrielsantos.backend.entities;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,7 +14,6 @@ public class Category implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @javax.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

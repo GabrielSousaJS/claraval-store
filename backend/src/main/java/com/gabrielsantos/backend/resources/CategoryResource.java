@@ -40,7 +40,7 @@ public class CategoryResource {
             @ApiResponse(code = 201, message = "Category created"),
             @ApiResponse(code = 401, message = "Unauthorized feature"),
             @ApiResponse(code = 403, message = "Prohibited resource"),
-            @ApiResponse(code = 412, message = "Precondition not met.")
+            @ApiResponse(code = 412, message = "Precondition not met")
     })
     public ResponseEntity<CategoryDTO> insert(@Valid @RequestBody CategoryDTO dto) {
         dto = service.insert(dto);

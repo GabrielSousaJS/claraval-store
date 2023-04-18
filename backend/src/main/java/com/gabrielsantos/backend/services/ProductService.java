@@ -6,10 +6,9 @@ import com.gabrielsantos.backend.dto.ProductMinDTO;
 import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.entities.Product;
 import com.gabrielsantos.backend.entities.User;
-import com.gabrielsantos.backend.entities.UserSeller;
 import com.gabrielsantos.backend.repositories.CategoryRepository;
 import com.gabrielsantos.backend.repositories.ProductRepository;
-import com.gabrielsantos.backend.repositories.UserRepository;
+import com.gabrielsantos.backend.repositories.UserSellerRepository;
 import com.gabrielsantos.backend.services.exceptions.DatabaseException;
 import com.gabrielsantos.backend.services.exceptions.DifferentSellerLoggedException;
 import com.gabrielsantos.backend.services.exceptions.DuplicateDataException;
@@ -22,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -35,7 +33,7 @@ public class ProductService {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserSellerRepository sellerRepository;
 
     @Autowired
     private AuthService authService;
@@ -112,7 +110,7 @@ public class ProductService {
         entity.setPrice(dto.getPrice());
         entity.setQuantity(dto.getQuantity());
         entity.setImgUrl(dto.getImgUrl());
-        entity.setSeller(userRepository.findSellerByEmail(dto.getSeller().getEmail()));
+        entity.setSeller(sellerRepository.findSellerByEmail(dto.getSeller().getEmail()));
 
         entity.getCategories().clear();
 

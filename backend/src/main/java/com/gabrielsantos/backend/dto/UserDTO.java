@@ -1,6 +1,5 @@
 package com.gabrielsantos.backend.dto;
 
-import com.gabrielsantos.backend.entities.Address;
 import com.gabrielsantos.backend.entities.User;
 
 import javax.validation.constraints.Email;
@@ -46,14 +45,6 @@ public class UserDTO implements Serializable {
         birthDate = entity.getBirthDate();
         email = entity.getEmail();
         address = new AddressDTO(entity.getAddress());
-    }
-
-    public UserDTO(User entity, Address address) {
-        id = entity.getId();
-        name = entity.getName();
-        birthDate = entity.getBirthDate();
-        email = entity.getEmail();
-        this.address = new AddressDTO(address);
     }
 
     public Long getId() {

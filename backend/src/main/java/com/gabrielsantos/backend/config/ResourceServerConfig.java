@@ -32,7 +32,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] PUBLIC = { "/api/oauth/token", "/h2-console/**", "/api/products/**", "/api/categories/**" };
 
-    private static final String LOGIN = "/api/users";
+    private static final String[] SIGN_UP = { "/api/users", "/api/users/profile/seller" };
 
     private static final String[] SWAGGER = {
             "/v2/api-docs",
@@ -58,7 +58,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
         http.authorizeRequests().antMatchers(PUBLIC).permitAll()
                 .antMatchers(HttpMethod.GET, PUBLIC).permitAll()
-                .antMatchers(HttpMethod.POST).permitAll()
+                .antMatchers(HttpMethod.POST, SIGN_UP).permitAll()
                 .antMatchers(SWAGGER).permitAll()
                 .anyRequest()
                 .authenticated();

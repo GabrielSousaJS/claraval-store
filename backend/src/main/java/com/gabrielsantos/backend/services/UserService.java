@@ -1,10 +1,10 @@
 package com.gabrielsantos.backend.services;
 
 import com.gabrielsantos.backend.dto.*;
-import com.gabrielsantos.backend.entities.Address;
 import com.gabrielsantos.backend.entities.User;
 import com.gabrielsantos.backend.entities.UserSeller;
 import com.gabrielsantos.backend.repositories.UserRepository;
+import com.gabrielsantos.backend.repositories.UserSellerRepository;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +31,12 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private UserSellerRepository sellerRepository;
+
+    @Autowired
+    private PrivilegeService privilegeService;
 
     @Autowired
     private AddressService addressService;
@@ -60,19 +66,38 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDTO insert(UserInsertDTO dto) {
-        User entity = new User();
-        copyDtoToEntityUser(entity, dto);
-        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
-        entity = repository.save(entity);
-        return new UserDTO(entity);
+    public UserDTO insertClient(UserInsertDTO dto) {
+        User client = new User();
+        copyDtoToEntityUser(client, dto);
+        privilegeService.insertClientPrivilege(client);
+        client.setPassword(passwordEncoder.encode(dto.getPassword()));
+        client = repository.save(client);
+        return new UserDTO(client);
     }
 
-    private void copyDtoToEntityUser(User entity, UserDTO dto) {
-        entity.setName(dto.getName());
-        entity.setBirthDate(dto.getBirthDate());
-        entity.setEmail(dto.getEmail());
-        entity.setAddress(addressService.copyDtoToEntity(dto));
+    @Transactional
+    public SellerDTO insertSeller(SellerInsertDTO dto) {
+        UserSeller seller = new UserSeller();
+        copyDtoToEntitySeller(seller, dto);
+        privilegeService.insertSellerPrivilege(seller);
+        seller.setPassword(passwordEncoder.encode(dto.getPassword()));
+        seller = sellerRepository.save(seller);
+        return new SellerDTO(seller);
+    }
+
+    private void copyDtoToEntityUser(User client, UserDTO dto) {
+        client.setName(dto.getName());
+        client.setBirthDate(dto.getBirthDate());
+        client.setEmail(dto.getEmail());
+        client.setAddress(addressService.copyDtoToEntity(dto));
+    }
+
+    private void copyDtoToEntitySeller(UserSeller seller, SellerInsertDTO dto) {
+        seller.setName(dto.getName());
+        seller.setBirthDate(dto.getBirthDate());
+        seller.setEmail(dto.getEmail());
+        seller.setAddress(addressService.copyDtoToEntity(dto));
+        seller.setCompanyName(dto.getCompanyName());
     }
 
     @Override
