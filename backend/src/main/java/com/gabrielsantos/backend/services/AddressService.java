@@ -12,7 +12,7 @@ public class AddressService {
     @Autowired
     private AddressRepository repository;
 
-    public Address copyDtoToEntity(UserDTO userDTO) {
+    public Address copyDtoToEntityAndSave(UserDTO userDTO) {
         Address entity = new Address();
 
         entity.setId(userDTO.getAddress().getId());
@@ -26,5 +26,4 @@ public class AddressService {
 
         return entity;
     }
-
 }

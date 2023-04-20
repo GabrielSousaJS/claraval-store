@@ -69,7 +69,7 @@ public class UserService implements UserDetailsService {
     public UserDTO insertClient(UserInsertDTO dto) {
         User client = new User();
         copyDtoToEntityUser(client, dto);
-        privilegeService.insertClientPrivilege(client);
+        addPrivilegeClient(client);
         client.setPassword(passwordEncoder.encode(dto.getPassword()));
         client = repository.save(client);
         return new UserDTO(client);
@@ -79,8 +79,7 @@ public class UserService implements UserDetailsService {
     public SellerDTO insertSeller(SellerInsertDTO dto) {
         UserSeller seller = new UserSeller();
         copyDtoToEntitySeller(seller, dto);
-        privilegeService.insertClientPrivilege(seller);
-        privilegeService.insertSellerPrivilege(seller);
+        addPrivilegeSellerAndClient(seller);
         seller.setPassword(passwordEncoder.encode(dto.getPassword()));
         seller = sellerRepository.save(seller);
         return new SellerDTO(seller);
@@ -90,15 +89,24 @@ public class UserService implements UserDetailsService {
         client.setName(dto.getName());
         client.setBirthDate(dto.getBirthDate());
         client.setEmail(dto.getEmail());
-        client.setAddress(addressService.copyDtoToEntity(dto));
+        client.setAddress(addressService.copyDtoToEntityAndSave(dto));
     }
 
     private void copyDtoToEntitySeller(UserSeller seller, SellerInsertDTO dto) {
         seller.setName(dto.getName());
         seller.setBirthDate(dto.getBirthDate());
         seller.setEmail(dto.getEmail());
-        seller.setAddress(addressService.copyDtoToEntity(dto));
+        seller.setAddress(addressService.copyDtoToEntityAndSave(dto));
         seller.setCompanyName(dto.getCompanyName());
+    }
+
+    private void addPrivilegeClient(User entity) {
+        privilegeService.insertClientPrivilege(entity);
+    }
+
+    private void addPrivilegeSellerAndClient(UserSeller entity) {
+        privilegeService.insertClientPrivilege(entity);
+        privilegeService.insertSellerPrivilege(entity);
     }
 
     @Override
