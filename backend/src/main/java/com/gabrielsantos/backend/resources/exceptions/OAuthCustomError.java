@@ -1,5 +1,7 @@
 package com.gabrielsantos.backend.resources.exceptions;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.io.Serial;
@@ -9,9 +11,11 @@ public class OAuthCustomError implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Getter @Setter
     private String error;
 
     @JsonProperty("error_description")
+    @Getter @Setter
     private String errorDescription;
 
     public OAuthCustomError() {
@@ -19,22 +23,6 @@ public class OAuthCustomError implements Serializable {
 
     public OAuthCustomError(String error, String errorDescription) {
         this.error = error;
-        this.errorDescription = errorDescription;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
-
-    public String getErrorDescription() {
-        return errorDescription;
-    }
-
-    public void setErrorDescription(String errorDescription) {
         this.errorDescription = errorDescription;
     }
 }

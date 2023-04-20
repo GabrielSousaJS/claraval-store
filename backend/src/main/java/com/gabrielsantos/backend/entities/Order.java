@@ -3,7 +3,6 @@ package com.gabrielsantos.backend.entities;
 import com.gabrielsantos.backend.entities.enums.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.io.Serial;
@@ -19,7 +18,6 @@ public class Order implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @javax.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter @Setter
