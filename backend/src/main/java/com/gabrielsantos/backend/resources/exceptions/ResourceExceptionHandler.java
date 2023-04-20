@@ -65,7 +65,7 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(DifferentSellerLoggedException.class)
     public ResponseEntity<StandardError> sellerLoggedIn(DifferentSellerLoggedException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.CONFLICT;
+        HttpStatus status = HttpStatus.FORBIDDEN;
         StandardError err = new StandardError();
         err.setTimestamp(Instant.now());
         err.setStatus(status.value());
