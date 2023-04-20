@@ -79,6 +79,7 @@ public class UserService implements UserDetailsService {
     public SellerDTO insertSeller(SellerInsertDTO dto) {
         UserSeller seller = new UserSeller();
         copyDtoToEntitySeller(seller, dto);
+        privilegeService.insertClientPrivilege(seller);
         privilegeService.insertSellerPrivilege(seller);
         seller.setPassword(passwordEncoder.encode(dto.getPassword()));
         seller = sellerRepository.save(seller);
