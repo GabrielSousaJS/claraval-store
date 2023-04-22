@@ -90,6 +90,13 @@ public class ProductResource {
 
     @PutMapping(value = "/{id}")
     @PreAuthorize("hasRole('SELLER')")
+    @ApiOperation(value = "Update category")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Update product"),
+            @ApiResponse(code = 401, message = "Unathorized feature"),
+            @ApiResponse(code = 403, message = "Prohibited resource"),
+            @ApiResponse(code = 412, message = "Precondition not met")
+    })
     public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto) {
         ProductDTO newDto = service.update(id, dto);
         return ResponseEntity.ok().body(newDto);

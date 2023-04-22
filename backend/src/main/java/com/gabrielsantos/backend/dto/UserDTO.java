@@ -31,7 +31,6 @@ public class UserDTO implements Serializable {
     @Getter @Setter
     private String email;
 
-    @NotNull(message = "The user must have a registered address.")
     @Getter @Setter
     private AddressDTO address;
 

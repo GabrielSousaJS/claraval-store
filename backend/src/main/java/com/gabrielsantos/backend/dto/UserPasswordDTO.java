@@ -7,13 +7,13 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 
 @UserInsertValid
-public class UserInsertDTO extends UserDTO {
+public class UserPasswordDTO extends UserDTO {
 
     @NotBlank(message = "This field cannot be empty or blank.")
     @Getter @Setter
     private String password;
 
-    public UserInsertDTO() {
+    public UserPasswordDTO() {
         super();
     }
 }

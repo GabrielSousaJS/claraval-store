@@ -1,7 +1,9 @@
 package com.gabrielsantos.backend.services;
 
+import com.gabrielsantos.backend.dto.AddressDTO;
 import com.gabrielsantos.backend.dto.UserDTO;
 import com.gabrielsantos.backend.entities.Address;
+import com.gabrielsantos.backend.entities.User;
 import com.gabrielsantos.backend.repositories.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +27,15 @@ public class AddressService {
         entity = repository.save(entity);
 
         return entity;
+    }
+
+    public void copyDtoToEntityForUpdateAndSave(User entity, AddressDTO dto) {
+        entity.getAddress().setPublicPlace(dto.getPublicPlace());
+        entity.getAddress().setCep(dto.getCep());
+        entity.getAddress().setNumber(dto.getNumber());
+        entity.getAddress().setCity(dto.getCity());
+        entity.getAddress().setState(dto.getState());
+
+        repository.save(entity.getAddress());
     }
 }

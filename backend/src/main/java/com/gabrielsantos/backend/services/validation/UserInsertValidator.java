@@ -1,6 +1,6 @@
 package com.gabrielsantos.backend.services.validation;
 
-import com.gabrielsantos.backend.dto.UserInsertDTO;
+import com.gabrielsantos.backend.dto.UserPasswordDTO;
 import com.gabrielsantos.backend.entities.User;
 import com.gabrielsantos.backend.repositories.UserRepository;
 import com.gabrielsantos.backend.resources.exceptions.FieldMessage;
@@ -11,7 +11,7 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserInsertValidator implements ConstraintValidator<UserInsertValid, UserInsertDTO> {
+public class UserInsertValidator implements ConstraintValidator<UserInsertValid, UserPasswordDTO> {
 
     @Autowired
     private UserRepository repository;
@@ -21,7 +21,7 @@ public class UserInsertValidator implements ConstraintValidator<UserInsertValid,
     }
 
     @Override
-    public boolean isValid(UserInsertDTO dto, ConstraintValidatorContext context) {
+    public boolean isValid(UserPasswordDTO dto, ConstraintValidatorContext context) {
 
         List<FieldMessage> list = new ArrayList<>();
 

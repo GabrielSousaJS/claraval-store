@@ -65,10 +65,10 @@ public class UserResource {
     @ApiOperation(value = "Insert client")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Client created"),
-            @ApiResponse(code = 409, message = "Conflict when making use of the resource"),
+            @ApiResponse(code = 400, message = "Conflict when making use of the resource"),
             @ApiResponse(code = 412, message = "Precondition not met")
     })
-    public ResponseEntity<UserDTO> insertClient(@Valid @RequestBody UserInsertDTO dto) {
+    public ResponseEntity<UserDTO> insertClient(@Valid @RequestBody UserPasswordDTO dto) {
         UserDTO newDto = service.insertClient(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(newDto.getId()).toUri();
         return ResponseEntity.created(uri).body(newDto);
@@ -76,9 +76,36 @@ public class UserResource {
 
     @PostMapping(value = "/profile/seller")
     @ApiOperation(value = "Insert seller")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Insert seller"),
+            @ApiResponse(code = 400, message = "Conflict when making use of the resource"),
+            @ApiResponse(code = 412, message = "Precondition not met")
+    })
     public ResponseEntity<SellerDTO> insertSeller(@Valid @RequestBody SellerInsertDTO dto) {
         SellerDTO newDto = service.insertSeller(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(newDto.getId()).toUri();
         return ResponseEntity.created(uri).body(newDto);
+    }
+
+    @PutMapping(value = "/update-personal-information")
+    @ApiOperation(value = "Update personal information")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Update personal information"),
+            @ApiResponse(code = 412, message = "Precondition not met")
+    })
+    public ResponseEntity<UserDTO> updatePersonalInformation(@Valid @RequestBody UserPasswordDTO dto) {
+        UserDTO newDto = service.updatePersonalInformation(dto);
+        return ResponseEntity.ok().body(newDto);
+    }
+
+    @PutMapping(value = "/update-address")
+    @ApiOperation(value = "Update address")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Update address"),
+            @ApiResponse(code = 412, message = "Precondition not met")
+    })
+    public ResponseEntity<UserDTO> updateAddressUser(@Valid @RequestBody AddressDTO dto) {
+        UserDTO userDTO = service.updateUserAddress(dto);
+        return ResponseEntity.ok().body(userDTO);
     }
 }

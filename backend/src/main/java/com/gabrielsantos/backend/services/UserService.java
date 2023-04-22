@@ -36,6 +36,9 @@ public class UserService implements UserDetailsService {
     private UserSellerRepository sellerRepository;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private PrivilegeService privilegeService;
 
     @Autowired
@@ -66,7 +69,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDTO insertClient(UserInsertDTO dto) {
+    public UserDTO insertClient(UserPasswordDTO dto) {
         User client = new User();
         copyDtoToEntityUser(client, dto);
         addPrivilegeClient(client);
@@ -85,6 +88,23 @@ public class UserService implements UserDetailsService {
         return new SellerDTO(seller);
     }
 
+    @Transactional
+    public UserDTO updatePersonalInformation(UserPasswordDTO dto) {
+        User entity = authService.authenticated();
+        copyDtoToEntityForUpdate(entity, dto);
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        repository.save(entity);
+        return new UserDTO(entity);
+    }
+
+    @Transactional
+    public UserDTO updateUserAddress(AddressDTO dto) {
+        User entity = authService.authenticated();
+        addressService.copyDtoToEntityForUpdateAndSave(entity, dto);
+        repository.save(entity);
+        return new UserDTO(entity);
+    }
+
     private void copyDtoToEntityUser(User client, UserDTO dto) {
         client.setName(dto.getName());
         client.setBirthDate(dto.getBirthDate());
@@ -98,6 +118,11 @@ public class UserService implements UserDetailsService {
         seller.setEmail(dto.getEmail());
         seller.setAddress(addressService.copyDtoToEntityAndSave(dto));
         seller.setCompanyName(dto.getCompanyName());
+    }
+
+    private void copyDtoToEntityForUpdate(User entity, UserPasswordDTO dto) {
+        entity.setName(dto.getName());
+        entity.setBirthDate(dto.getBirthDate());
     }
 
     private void addPrivilegeClient(User entity) {
