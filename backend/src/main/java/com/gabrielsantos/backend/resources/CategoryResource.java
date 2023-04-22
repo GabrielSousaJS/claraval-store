@@ -48,6 +48,19 @@ public class CategoryResource {
         return ResponseEntity.created(uri).body(dto);
     }
 
+    @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Update category")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Update category"),
+            @ApiResponse(code = 401, message = "Unauthorized feature"),
+            @ApiResponse(code = 403, message = "Prohibited resource")
+    })
+    public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @Valid @RequestBody CategoryDTO dto) {
+        dto = service.update(id, dto);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @DeleteMapping(value = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete category by Id")

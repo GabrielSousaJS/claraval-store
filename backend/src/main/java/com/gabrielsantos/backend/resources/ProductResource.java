@@ -34,7 +34,7 @@ public class ProductResource {
     })
     public ResponseEntity<Page<ProductMinDTO>> findAllPaged(
             @RequestParam(value = "name", defaultValue = "") String name, Pageable pageable) {
-        Page<ProductMinDTO> pageDto = service.findAllPaged(name.trim(), pageable);
+        Page<ProductMinDTO> pageDto = service.findAllPaged(name, pageable);
         return ResponseEntity.ok().body(pageDto);
     }
 
