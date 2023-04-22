@@ -2,6 +2,8 @@ package com.gabrielsantos.backend.resources;
 
 import com.gabrielsantos.backend.dto.ProductDTO;
 import com.gabrielsantos.backend.dto.ProductMinDTO;
+import com.gabrielsantos.backend.dto.ProductUpdateDTO;
+import com.gabrielsantos.backend.entities.Product;
 import com.gabrielsantos.backend.services.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -84,6 +86,13 @@ public class ProductResource {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('SELLER')")
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto) {
+        ProductDTO newDto = service.update(id, dto);
+        return ResponseEntity.ok().body(newDto);
     }
 
     @DeleteMapping(value = "/{id}")

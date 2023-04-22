@@ -3,6 +3,7 @@ package com.gabrielsantos.backend.services;
 import com.gabrielsantos.backend.dto.CategoryDTO;
 import com.gabrielsantos.backend.dto.ProductDTO;
 import com.gabrielsantos.backend.dto.ProductMinDTO;
+import com.gabrielsantos.backend.dto.ProductUpdateDTO;
 import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.entities.Product;
 import com.gabrielsantos.backend.entities.User;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
@@ -91,6 +93,22 @@ public class ProductService {
         }
     }
 
+    @Transactional
+    public ProductDTO update(Long id, ProductUpdateDTO dto) {
+        try {
+            Product entity = repository.getReferenceById(id);
+
+            isTheSellerLoggedIn(new ProductDTO(entity));
+
+            copyDtoToEntityForUpdate(entity, dto);
+            repository.save(entity);
+            return new ProductDTO(entity, entity.getCategories());
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Product not found to update.");
+        }
+
+    }
+
     public void DeleteById(Long id) {
         try {
             repository.deleteById(id);
@@ -116,6 +134,12 @@ public class ProductService {
             entity.getCategories().add(category);
         }
 
+    }
+
+    private void copyDtoToEntityForUpdate(Product entity, ProductUpdateDTO dto) {
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setQuantity(dto.getQuantity());
     }
 
     private boolean productExists(String name) {
