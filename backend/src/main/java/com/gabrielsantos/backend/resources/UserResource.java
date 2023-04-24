@@ -62,13 +62,13 @@ public class UserResource {
     }
 
     @GetMapping(value = "/profile")
-    @ApiOperation(value = "Get user logged")
+    @ApiOperation(value = "Get logged in user information")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Find user"),
+            @ApiResponse(code = 200, message = "User information found"),
             @ApiResponse(code = 401, message = "Unathorized feature")
     })
-    public ResponseEntity<UserDTO> getUserLogged() {
-        UserDTO dto = service.getUserLogged();
+    public ResponseEntity<UserDTO> getLoggedInUserInformation() {
+        UserDTO dto = service.getLoggedInUserInformation();
         return ResponseEntity.ok().body(dto);
     }
 
