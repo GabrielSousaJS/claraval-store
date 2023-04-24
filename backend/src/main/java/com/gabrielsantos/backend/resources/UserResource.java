@@ -61,6 +61,17 @@ public class UserResource {
         return ResponseEntity.ok().body(pageDto);
     }
 
+    @GetMapping(value = "/profile")
+    @ApiOperation(value = "Get user logged")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Find user"),
+            @ApiResponse(code = 401, message = "Unathorized feature")
+    })
+    public ResponseEntity<UserDTO> getUserLogged() {
+        UserDTO dto = service.getUserLogged();
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
     @ApiOperation(value = "Insert client")
     @ApiResponses(value = {

@@ -68,6 +68,12 @@ public class UserService implements UserDetailsService {
         return page.map(SellerDTO::new);
     }
 
+    @Transactional(readOnly = true)
+    public UserDTO getUserLogged() {
+        User entity = authService.authenticated();
+        return new UserDTO(entity);
+    }
+
     @Transactional
     public UserDTO insertClient(UserPasswordDTO dto) {
         User client = new User();
