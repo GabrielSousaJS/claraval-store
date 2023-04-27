@@ -2,6 +2,7 @@ package com.gabrielsantos.backend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gabrielsantos.backend.entities.enums.PaymentMethod;
+import com.gabrielsantos.backend.entities.enums.converters.PaymentMethodConverter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +27,9 @@ public class Payment implements Serializable {
     @Getter @Setter
     private Instant moment;
 
-    private Integer paymentMethod;
+    @Getter @Setter
+    @Convert(converter = PaymentMethodConverter.class)
+    private PaymentMethod paymentMethod;
 
     @JsonIgnore
     @OneToOne
@@ -39,18 +42,8 @@ public class Payment implements Serializable {
     public Payment(Long id, Instant moment, PaymentMethod paymentMethod, Order order) {
         this.id = id;
         this.moment = moment;
-        setPaymentMethod(paymentMethod);
+        this.paymentMethod = paymentMethod;
         this.order = order;
-    }
-
-    public PaymentMethod getPaymentMethod() {
-        return PaymentMethod.valueOf(paymentMethod);
-    }
-
-    public void setPaymentMethod(PaymentMethod paymentMethod) {
-        if (paymentMethod != null) {
-            this.paymentMethod = paymentMethod.getCode();
-        }
     }
 
     @Override

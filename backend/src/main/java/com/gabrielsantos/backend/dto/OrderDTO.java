@@ -2,6 +2,7 @@ package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.Order;
 import com.gabrielsantos.backend.entities.OrderItem;
+import com.gabrielsantos.backend.entities.enums.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,7 @@ public class OrderDTO implements Serializable {
     @Getter @Setter
     private Instant moment;
     @Getter @Setter
-    private Integer orderStatus;
+    private OrderStatus orderStatus;
 
     @Getter @Setter
     private Long userId;
@@ -33,7 +34,7 @@ public class OrderDTO implements Serializable {
     public OrderDTO() {
     }
 
-    public OrderDTO(Long id, Instant moment, Integer orderStatus, Long userId, PaymentDTO payment) {
+    public OrderDTO(Long id, Instant moment, OrderStatus orderStatus, Long userId, PaymentDTO payment) {
         this.id = id;
         this.moment = moment;
         this.orderStatus = orderStatus;
@@ -44,7 +45,7 @@ public class OrderDTO implements Serializable {
     public OrderDTO(Order entity) {
         id = entity.getId();
         moment = entity.getMoment();
-        orderStatus = entity.getOrderStatus().getCode();
+        orderStatus = entity.getOrderStatus();
         userId = entity.getClient().getId();
         payment = new PaymentDTO(entity.getPayment());
     }

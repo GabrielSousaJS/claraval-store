@@ -35,6 +35,8 @@ public class User implements UserDetails, Serializable {
     @Getter @Setter
     private String email;
     @Getter @Setter
+    private String imgUrl;
+    @Getter @Setter
     private String password;
 
     @OneToOne(fetch = FetchType.EAGER)

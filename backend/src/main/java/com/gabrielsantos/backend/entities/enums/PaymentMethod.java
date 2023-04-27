@@ -4,24 +4,19 @@ import lombok.Getter;
 
 public enum PaymentMethod {
 
-    PIX(1),
-    CARD(2),
-    BANK_SLIP(3);
+    PIX("PIX"),
+    CARD("Card"),
+    BANK_SLIP("Bank slip");
 
     @Getter
-    private int code;
+    private String value;
 
-    PaymentMethod(int code) {
-        this.code = code;
+    PaymentMethod(String value) {
+        this.value = value;
     }
 
-    public static PaymentMethod valueOf(int code) {
-        for (PaymentMethod value : PaymentMethod.values()) {
-            if (value.getCode() == code) {
-                return value;
-            }
-        }
-
-        throw new IllegalArgumentException("Invalid Payment Method code!");
+    @Override
+    public String toString() {
+        return value;
     }
 }

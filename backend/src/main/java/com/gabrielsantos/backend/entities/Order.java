@@ -1,6 +1,7 @@
 package com.gabrielsantos.backend.entities;
 
 import com.gabrielsantos.backend.entities.enums.OrderStatus;
+import com.gabrielsantos.backend.entities.enums.converters.OrderStatusConverter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +27,9 @@ public class Order implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     @Getter @Setter
     private Instant moment;
-    private Integer orderStatus;
+    @Getter @Setter
+    @Convert(converter = OrderStatusConverter.class)
+    private OrderStatus orderStatus;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
@@ -47,18 +50,8 @@ public class Order implements Serializable {
     public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
         this.id = id;
         this.moment = moment;
-        setOrderStatus(orderStatus);
+        this.orderStatus = orderStatus;
         this.client = client;
-    }
-
-    public OrderStatus getOrderStatus() {
-        return OrderStatus.valueOf(orderStatus);
-    }
-
-    public void setOrderStatus(OrderStatus orderStatus) {
-        if (orderStatus != null) {
-            this.orderStatus = orderStatus.getCode();
-        }
     }
 
     public Double getTotal() {
