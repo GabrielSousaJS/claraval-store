@@ -27,6 +27,6 @@ public class OrderStatusConverter implements AttributeConverter<OrderStatus, Str
         return Stream.of(OrderStatus.values())
                 .filter(status -> status.getValue().equals(value))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("Invalid argument"));
     }
 }

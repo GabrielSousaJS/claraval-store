@@ -27,6 +27,6 @@ public class PaymentMethodConverter implements AttributeConverter<PaymentMethod,
         return Stream.of(PaymentMethod.values())
                 .filter(payment -> payment.getValue().equals(value))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("Invalid argument"));
     }
 }
