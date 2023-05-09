@@ -5,6 +5,7 @@ import com.gabrielsantos.backend.entities.Payment;
 import com.gabrielsantos.backend.repositories.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PaymentService {
@@ -12,6 +13,7 @@ public class PaymentService {
     @Autowired
     private PaymentRepository repository;
 
+    @Transactional
     public PaymentDTO savePayment(PaymentDTO dto) {
         Payment entity = new Payment();
         copyDtoToEntity(entity, dto);
