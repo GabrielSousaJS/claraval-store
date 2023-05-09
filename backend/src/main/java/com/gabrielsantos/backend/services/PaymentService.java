@@ -14,11 +14,11 @@ public class PaymentService {
     private PaymentRepository repository;
 
     @Transactional
-    public PaymentDTO savePayment(PaymentDTO dto) {
+    public Payment savePayment(PaymentDTO dto) {
         Payment entity = new Payment();
         copyDtoToEntity(entity, dto);
         entity = repository.save(entity);
-        return new PaymentDTO(entity);
+        return entity;
     }
 
     private void copyDtoToEntity(Payment entity, PaymentDTO dto) {

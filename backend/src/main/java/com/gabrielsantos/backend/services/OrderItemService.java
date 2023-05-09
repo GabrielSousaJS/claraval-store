@@ -18,11 +18,11 @@ public class OrderItemService {
     private ProductRepository productRepository;
 
     @Transactional
-    public OrderItemDTO saveItem(OrderItemDTO dto) {
+    public OrderItem saveItem(OrderItemDTO dto) {
         OrderItem entity = new OrderItem();
         copyDtoToEntity(entity, dto);
         entity = repository.save(entity);
-        return new OrderItemDTO(entity);
+        return entity;
     }
 
     private void copyDtoToEntity(OrderItem entity, OrderItemDTO dto) {
