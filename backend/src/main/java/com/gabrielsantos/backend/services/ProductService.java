@@ -6,11 +6,11 @@ import com.gabrielsantos.backend.dto.ProductMinDTO;
 import com.gabrielsantos.backend.dto.ProductUpdateDTO;
 import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.entities.Product;
-import com.gabrielsantos.backend.entities.User;
 import com.gabrielsantos.backend.repositories.CategoryRepository;
 import com.gabrielsantos.backend.repositories.ProductRepository;
-import com.gabrielsantos.backend.repositories.UserSellerRepository;
-import com.gabrielsantos.backend.services.exceptions.*;
+import com.gabrielsantos.backend.services.exceptions.DatabaseException;
+import com.gabrielsantos.backend.services.exceptions.DuplicateDataException;
+import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -31,12 +31,6 @@ public class ProductService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Autowired
-    private UserSellerRepository sellerRepository;
-
-    @Autowired
-    private AuthService authService;
-
     @Transactional(readOnly = true)
     public Page<ProductMinDTO> findAllPaged(String name, Pageable pageable) {
         Page<Product> page = repository.findAllPaged(name, pageable);
@@ -52,7 +46,7 @@ public class ProductService {
     public ProductDTO findById(Long id) {
         Optional<Product> obj = repository.findById(id);
         Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Product not found."));
-        return new ProductDTO(entity, entity.getSeller(), entity.getCategories());
+        return new ProductDTO(entity, entity.getCategories());
     }
 
     @Transactional(readOnly = true)
@@ -67,22 +61,9 @@ public class ProductService {
         return page.map(ProductMinDTO::new);
     }
 
-    @Transactional(readOnly = true)
-    public Page<ProductMinDTO> findProductsBySeller(Long sellerId, Pageable pageable) {
-        Page<Product> page = repository.findProductsBySeller(sellerId, pageable);
-
-        if (page.getTotalElements() == 0) {
-            throw new ResourceNotFoundException("There is no product listed for this seller.");
-        }
-
-        return page.map(ProductMinDTO::new);
-    }
-
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
-
-        isTheSellerLoggedIn(dto);
 
         if (!productExists(dto.getName())) {
             copyDtoToEntity(entity, dto);
@@ -97,8 +78,6 @@ public class ProductService {
     public ProductDTO update(Long id, ProductUpdateDTO dto) {
         try {
             Product entity = repository.getReferenceById(id);
-
-            isTheSellerLoggedIn(new ProductDTO(entity));
 
             copyDtoToEntityForUpdate(entity, dto);
             repository.save(entity);
@@ -125,7 +104,6 @@ public class ProductService {
         entity.setPrice(dto.getPrice());
         entity.setQuantity(dto.getQuantity());
         entity.setImgUrl(dto.getImgUrl());
-        entity.setSeller(sellerRepository.findSellerByEmail(dto.getSeller().getEmail()));
 
         entity.getCategories().clear();
 
@@ -145,13 +123,5 @@ public class ProductService {
     private boolean productExists(String name) {
         Product entity = repository.findByName(name);
         return entity != null;
-    }
-
-    private void isTheSellerLoggedIn(ProductDTO dto) {
-        User user = authService.authenticated();
-        if (!dto.getSeller().getEmail().equals(user.getEmail())) {
-            throw new DifferentSellerLoggedException("The seller who is inserting the product is different from the " +
-                    "one logged in.");
-        }
     }
 }

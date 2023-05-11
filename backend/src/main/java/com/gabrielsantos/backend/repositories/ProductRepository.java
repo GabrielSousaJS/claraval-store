@@ -18,8 +18,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT obj FROM Product obj INNER JOIN obj.categories cats " +
             "WHERE (cats IN :category)")
     Page<Product> findProductsByCategory(Category category, Pageable pageable);
-
-    @Query("SELECT obj FROM Product obj INNER JOIN obj.seller " +
-            "WHERE obj.seller.id = :sellerId")
-    Page<Product> findProductsBySeller(Long sellerId, Pageable pageable);
 }

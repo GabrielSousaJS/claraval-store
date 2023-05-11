@@ -1,7 +1,6 @@
 package com.gabrielsantos.backend.services;
 
 import com.gabrielsantos.backend.entities.User;
-import com.gabrielsantos.backend.entities.UserSeller;
 import com.gabrielsantos.backend.repositories.PrivilegeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,7 @@ public class PrivilegeService {
     }
 
     @Transactional(readOnly = true)
-    public void insertSellerPrivilege(UserSeller seller) {
+    public void insertSellerPrivilege(User seller) {
         seller.getPrivileges().add(repository.findPrivilegeByAuthority("ROLE_SELLER"));
     }
-
 }

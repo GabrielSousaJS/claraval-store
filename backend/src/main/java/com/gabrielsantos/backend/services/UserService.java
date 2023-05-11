@@ -2,9 +2,7 @@ package com.gabrielsantos.backend.services;
 
 import com.gabrielsantos.backend.dto.*;
 import com.gabrielsantos.backend.entities.User;
-import com.gabrielsantos.backend.entities.UserSeller;
 import com.gabrielsantos.backend.repositories.UserRepository;
-import com.gabrielsantos.backend.repositories.UserSellerRepository;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +29,6 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
-
-    @Autowired
-    private UserSellerRepository sellerRepository;
 
     @Autowired
     private AuthService authService;
@@ -64,7 +59,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional(readOnly = true)
     public Page<SellerDTO> findAllSellers(Pageable pageable) {
-        Page<UserSeller> page = repository.findAllSellers(pageable);
+        Page<User> page = repository.findAllSeller(pageable);
         return page.map(SellerDTO::new);
     }
 
@@ -75,7 +70,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserDTO insertClient(UserPasswordDTO dto) {
+    public UserDTO insertClient(UserInsertDTO dto) {
         User client = new User();
         copyDtoToEntityUser(client, dto);
         addPrivilegeClient(client);
@@ -85,17 +80,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public SellerDTO insertSeller(SellerInsertDTO dto) {
-        UserSeller seller = new UserSeller();
-        copyDtoToEntitySeller(seller, dto);
+    public UserDTO insertSeller(UserInsertDTO dto) {
+        User seller = new User();
+        copyDtoToEntityUser(seller, dto);
         addPrivilegeSellerAndClient(seller);
         seller.setPassword(passwordEncoder.encode(dto.getPassword()));
-        seller = sellerRepository.save(seller);
-        return new SellerDTO(seller);
+        seller = repository.save(seller);
+        return new UserDTO(seller);
     }
 
     @Transactional
-    public UserDTO updatePersonalInformation(UserPasswordDTO dto) {
+    public UserDTO updatePersonalInformation(UserInsertDTO dto) {
         User entity = authService.authenticated();
         copyDtoToEntityForUpdate(entity, dto);
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -111,22 +106,14 @@ public class UserService implements UserDetailsService {
         return new UserDTO(entity);
     }
 
-    private void copyDtoToEntityUser(User client, UserDTO dto) {
-        client.setName(dto.getName());
-        client.setBirthDate(dto.getBirthDate());
-        client.setEmail(dto.getEmail());
-        client.setAddress(addressService.copyDtoToEntityAndSave(dto));
+    private void copyDtoToEntityUser(User user, UserDTO dto) {
+        user.setName(dto.getName());
+        user.setBirthDate(dto.getBirthDate());
+        user.setEmail(dto.getEmail());
+        user.setAddress(addressService.copyDtoToEntityAndSave(dto));
     }
 
-    private void copyDtoToEntitySeller(UserSeller seller, SellerInsertDTO dto) {
-        seller.setName(dto.getName());
-        seller.setBirthDate(dto.getBirthDate());
-        seller.setEmail(dto.getEmail());
-        seller.setAddress(addressService.copyDtoToEntityAndSave(dto));
-        seller.setCompanyName(dto.getCompanyName());
-    }
-
-    private void copyDtoToEntityForUpdate(User entity, UserPasswordDTO dto) {
+    private void copyDtoToEntityForUpdate(User entity, UserInsertDTO dto) {
         entity.setName(dto.getName());
         entity.setBirthDate(dto.getBirthDate());
     }
@@ -135,8 +122,8 @@ public class UserService implements UserDetailsService {
         privilegeService.insertClientPrivilege(entity);
     }
 
-    private void addPrivilegeSellerAndClient(UserSeller entity) {
-        privilegeService.insertClientPrivilege(entity);
+    private void addPrivilegeSellerAndClient(User entity) {
+        addPrivilegeClient(entity);
         privilegeService.insertSellerPrivilege(entity);
     }
 

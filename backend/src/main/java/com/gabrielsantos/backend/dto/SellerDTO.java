@@ -1,6 +1,6 @@
 package com.gabrielsantos.backend.dto;
 
-import com.gabrielsantos.backend.entities.UserSeller;
+import com.gabrielsantos.backend.entities.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,26 +16,26 @@ public class SellerDTO implements Serializable {
     @Getter @Setter
     private Long id;
 
+    @NotBlank(message = "This field cannot be empty or blank.")
+    @Getter @Setter
+    private String name;
+
     @Email(message = "Please provide a valid email.")
     @Getter @Setter
     private String email;
 
-    @NotBlank(message = "This field cannot be empty or blank.")
-    @Getter @Setter
-    private String companyName;
-
     public SellerDTO() {
     }
 
-    public SellerDTO(Long id, String email, String companyName) {
+    public SellerDTO(Long id, String name, String email) {
         this.id = id;
+        this.name = name;
         this.email = email;
-        this.companyName = companyName;
     }
 
-    public SellerDTO(UserSeller entity) {
+    public SellerDTO(User entity) {
         id = entity.getId();
+        name = entity.getName();
         email = entity.getEmail();
-        companyName = entity.getCompanyName();
     }
 }

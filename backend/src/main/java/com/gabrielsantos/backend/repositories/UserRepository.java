@@ -1,11 +1,12 @@
 package com.gabrielsantos.backend.repositories;
 
 import com.gabrielsantos.backend.entities.User;
-import com.gabrielsantos.backend.entities.UserSeller;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -15,6 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "WHERE :name = '' OR LOWER(obj.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     Page<User> findAllUser(String name, Pageable pageable);
 
-    @Query("SELECT obj FROM UserSeller obj")
-    Page<UserSeller> findAllSellers(Pageable pageable);
+    @Query("SELECT DISTINCT obj FROM User obj INNER JOIN obj.privileges privilege " +
+            "WHERE (privilege.authority = 'ROLE_SELLER')")
+    Page<User> findAllSeller(Pageable pageable);
 }

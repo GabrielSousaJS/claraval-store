@@ -62,19 +62,8 @@ public class ProductResource {
         return ResponseEntity.ok().body(pageDto);
     }
 
-    @GetMapping(value = "/{sellerId}/all-products-from-seller")
-    @ApiOperation(value = "Seller products")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Seller products found"),
-            @ApiResponse(code = 404, message = "Seller products not found")
-    })
-    public ResponseEntity<Page<ProductMinDTO>> findProductsBySeller(@PathVariable Long sellerId, Pageable pageable) {
-        Page<ProductMinDTO> pageDto = service.findProductsBySeller(sellerId, pageable);
-        return ResponseEntity.ok().body(pageDto);
-    }
-
     @PostMapping
-    @PreAuthorize("hasRole('SELLER')")
+    @PreAuthorize("hasAnyRole('SELLER', 'SELLER')")
     @ApiOperation(value = "Insert product")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Product created"),
@@ -89,7 +78,7 @@ public class ProductResource {
     }
 
     @PutMapping(value = "/{id}")
-    @PreAuthorize("hasRole('SELLER')")
+    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @ApiOperation(value = "Update category")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Update product"),

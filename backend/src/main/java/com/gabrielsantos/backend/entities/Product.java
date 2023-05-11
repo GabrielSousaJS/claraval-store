@@ -41,11 +41,6 @@ public class Product implements Serializable {
     @Getter
     private Set<Category> categories = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "seller_id")
-    @Getter @Setter
-    private UserSeller seller;
-
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant createdAt;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
@@ -54,14 +49,13 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(Long id, String name, String description, Double price, Integer quantity, String imgUrl, UserSeller seller) {
+    public Product(Long id, String name, String description, Double price, Integer quantity, String imgUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
         this.imgUrl = imgUrl;
-        this.seller = seller;
     }
 
     @PrePersist

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -25,6 +26,7 @@ public class UserResource {
     private UserService service;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get users paged")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Users found"),
@@ -38,6 +40,7 @@ public class UserResource {
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get user")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "User found"),
@@ -50,6 +53,7 @@ public class UserResource {
     }
 
     @GetMapping(value = "/sellers")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get sellers paged")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Sellers found"),
@@ -79,22 +83,27 @@ public class UserResource {
             @ApiResponse(code = 400, message = "Conflict when making use of the resource"),
             @ApiResponse(code = 412, message = "Precondition not met")
     })
-    public ResponseEntity<UserDTO> insertClient(@Valid @RequestBody UserPasswordDTO dto) {
+    public ResponseEntity<UserDTO> insertClient(@Valid @RequestBody UserInsertDTO dto) {
         UserDTO newDto = service.insertClient(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(newDto.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+                .buildAndExpand(newDto.getId()).toUri();
         return ResponseEntity.created(uri).body(newDto);
     }
 
     @PostMapping(value = "/profile/seller")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Insert seller")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Insert seller"),
             @ApiResponse(code = 400, message = "Conflict when making use of the resource"),
+            @ApiResponse(code = 401, message = "Unathorized feature"),
+            @ApiResponse(code = 403, message = "Prohibited resource"),
             @ApiResponse(code = 412, message = "Precondition not met")
     })
-    public ResponseEntity<SellerDTO> insertSeller(@Valid @RequestBody SellerInsertDTO dto) {
-        SellerDTO newDto = service.insertSeller(dto);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(newDto.getId()).toUri();
+    public ResponseEntity<UserDTO> insertSeller(@Valid @RequestBody UserInsertDTO dto) {
+        UserDTO newDto = service.insertSeller(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+                .buildAndExpand(newDto.getId()).toUri();
         return ResponseEntity.created(uri).body(newDto);
     }
 
@@ -104,7 +113,7 @@ public class UserResource {
             @ApiResponse(code = 200, message = "Update personal information"),
             @ApiResponse(code = 412, message = "Precondition not met")
     })
-    public ResponseEntity<UserDTO> updatePersonalInformation(@Valid @RequestBody UserPasswordDTO dto) {
+    public ResponseEntity<UserDTO> updatePersonalInformation(@Valid @RequestBody UserInsertDTO dto) {
         UserDTO newDto = service.updatePersonalInformation(dto);
         return ResponseEntity.ok().body(newDto);
     }

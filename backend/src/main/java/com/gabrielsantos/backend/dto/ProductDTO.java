@@ -2,7 +2,6 @@ package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.Category;
 import com.gabrielsantos.backend.entities.Product;
-import com.gabrielsantos.backend.entities.UserSeller;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,10 +41,6 @@ public class ProductDTO implements Serializable {
     @Getter @Setter
     private String imgUrl;
 
-    @NotNull(message = "The product must belong to a seller.")
-    @Getter @Setter
-    private SellerDTO seller;
-
     @NotEmpty(message = "The product must belong to at least one category.")
     @Getter
     private Set<CategoryDTO> categories = new HashSet<>();
@@ -53,14 +48,13 @@ public class ProductDTO implements Serializable {
     public ProductDTO() {
     }
 
-    public ProductDTO(Long id, String name, String description, Double price, Integer quantity, String imgUrl, SellerDTO seller) {
+    public ProductDTO(Long id, String name, String description, Double price, Integer quantity, String imgUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
         this.imgUrl = imgUrl;
-        this.seller = seller;
     }
 
     public ProductDTO(Product entity) {
@@ -70,17 +64,10 @@ public class ProductDTO implements Serializable {
         price = entity.getPrice();
         quantity = entity.getQuantity();
         imgUrl = entity.getImgUrl();
-        seller = new SellerDTO(entity.getSeller());
     }
 
     public ProductDTO(Product entity, Set<Category> categories) {
         this(entity);
-        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
-    }
-
-    public ProductDTO(Product entity, UserSeller seller, Set<Category> categories) {
-        this(entity);
-        this.seller = new SellerDTO(seller);
         categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
     }
 }
