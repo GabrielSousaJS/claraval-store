@@ -22,7 +22,6 @@ public class OrderItem implements Serializable {
     private OrderItemPk id = new OrderItemPk();
     @Getter @Setter
     private Integer quantity;
-    @Getter @Setter
     private Double price;
 
     public OrderItem() {
@@ -50,6 +49,14 @@ public class OrderItem implements Serializable {
 
     public void setProduct(Product product) {
         id.setProduct(product);
+    }
+
+    public Double getPrice() {
+        return id.getProduct().getPrice();
+    }
+
+    public void setPrice(Double price) {
+        this.price = id.getProduct().getPrice();
     }
 
     public Double getSubTotal() {

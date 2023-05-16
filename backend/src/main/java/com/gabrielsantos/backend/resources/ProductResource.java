@@ -79,7 +79,7 @@ public class ProductResource {
 
     @PutMapping(value = "/{id}")
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
-    @ApiOperation(value = "Update category")
+    @ApiOperation(value = "Update product")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Update product"),
             @ApiResponse(code = 401, message = "Unathorized feature"),

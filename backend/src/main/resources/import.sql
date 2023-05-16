@@ -198,9 +198,12 @@ INSERT INTO product_category (category_id, product_id) VALUES (6, 8);
 
 -- Pedidos
 INSERT INTO orders (moment, order_Status, client_id) VALUES (TIMESTAMP WITH TIME ZONE '2023-03-05T18:55:00Z', 'Paid', 6);
+INSERT INTO orders (moment, order_Status, client_id) VALUES (TIMESTAMP WITH TIME ZONE '2023-03-05T18:55:00Z', 'Paid', 6);
 
 -- Itens
 INSERT INTO order_item (product_id, order_id, quantity) VALUES (1, 1, 2);
+INSERT INTO order_item (product_id, order_id, quantity) VALUES (1, 2, 3);
 
 -- Payment
 INSERT INTO payments (moment, payment_Method, order_id) VALUES (TIMESTAMP WITH TIME ZONE '2023-03-05T19:10:00Z', 'PIX', 1);
+INSERT INTO payments (moment, payment_Method, order_id) VALUES (TIMESTAMP WITH TIME ZONE '2023-03-05T19:10:00Z', 'PIX', 2);
