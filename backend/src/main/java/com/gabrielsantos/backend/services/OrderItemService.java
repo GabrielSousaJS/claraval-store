@@ -31,14 +31,16 @@ public class OrderItemService {
     }
 
     @Transactional
-    public OrderItem saveItem(OrderItemDTO dto) {
+    public OrderItem saveItem(Long orderId, OrderItemDTO dto) {
         OrderItem entity = new OrderItem();
-        copyDtoToEntityInsert(entity, dto);
+        dto.setOrderId(orderId);
+        copyDtoToEntity(entity, dto);
         entity = repository.save(entity);
         return entity;
     }
 
-    private void copyDtoToEntityInsert(OrderItem entity, OrderItemDTO dto) {
+    private void copyDtoToEntity(OrderItem entity, OrderItemDTO dto) {
+        entity.setOrder(orderRepository.getReferenceById(dto.getOrderId()));
         entity.setProduct(productRepository.getReferenceById(dto.getProduct().getId()));
         entity.setQuantity(dto.getQuantity());
         entity.setPrice(entity.getPrice());
@@ -48,7 +50,7 @@ public class OrderItemService {
     public OrderItemDTO update(OrderItemDTO dto) {
         OrderItemPk key = new OrderItemPk();
         key.setOrder(orderRepository.getReferenceById(dto.getOrderId()));
-        key.setProduct(productRepository.getReferenceById(dto.getProductId()));
+        key.setProduct(productRepository.getReferenceById(dto.getProduct().getId()));
 
         OrderItem entity = repository.getReferenceById(key);
         entity.setQuantity(dto.getQuantity());

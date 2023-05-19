@@ -16,9 +16,7 @@ public class OrderItemDTO implements Serializable {
     @Getter @Setter
     private Long orderId;
     @Getter @Setter
-    private Long productId;
-    @Getter @Setter
-    private ProductDTO product;
+    private ProductMinDTO product;
 
     @PositiveOrZero(message = "This value cannot be negative.")
     @Getter @Setter
@@ -26,20 +24,21 @@ public class OrderItemDTO implements Serializable {
 
     @Positive(message = "This value cannot be negative or equal to zero.")
     @Getter @Setter
-    private Double price;
+    private Double subTotal;
 
     public OrderItemDTO() {
     }
 
-    public OrderItemDTO(ProductDTO product, Integer quantity, Double price) {
+    public OrderItemDTO(ProductMinDTO product, Integer quantity, Double price) {
         this.product = product;
         this.quantity = quantity;
-        this.price = price;
+        this.subTotal = price;
     }
 
     public OrderItemDTO(OrderItem entity) {
-        product = new ProductDTO(entity.getProduct());
+        orderId = entity.getOrder().getId();
+        product = new ProductMinDTO(entity.getProduct());
         quantity = entity.getQuantity();
-        price = entity.getPrice();
+        subTotal = entity.getSubTotal();
     }
 }

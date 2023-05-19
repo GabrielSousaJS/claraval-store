@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-public class OrderWithoutPayment implements Serializable {
+public class OrderWithoutPaymentDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -29,24 +29,24 @@ public class OrderWithoutPayment implements Serializable {
     @Getter
     private Set<OrderItemDTO> items = new HashSet<>();
 
-    public OrderWithoutPayment() {
+    public OrderWithoutPaymentDTO() {
     }
 
-    public OrderWithoutPayment(Long id, Instant moment, OrderStatus orderStatus, Long userId) {
+    public OrderWithoutPaymentDTO(Long id, Instant moment, OrderStatus orderStatus, Long userId) {
         this.id = id;
         this.moment = moment;
         this.orderStatus = orderStatus;
         this.clientId = userId;
     }
 
-    public OrderWithoutPayment(Order entity) {
+    public OrderWithoutPaymentDTO(Order entity) {
         id = entity.getId();
         moment = entity.getMoment();
         orderStatus = entity.getOrderStatus();
         clientId = entity.getClient().getId();
     }
 
-    public OrderWithoutPayment(Order entity, Set<OrderItem> items) {
+    public OrderWithoutPaymentDTO(Order entity, Set<OrderItem> items) {
         this(entity);
         items.forEach(item -> this.items.add(new OrderItemDTO(item)));
     }

@@ -1,6 +1,6 @@
 package com.gabrielsantos.backend.resources;
 
-import com.gabrielsantos.backend.dto.OrderWithoutPayment;
+import com.gabrielsantos.backend.dto.OrderWithoutPaymentDTO;
 import com.gabrielsantos.backend.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ public class OrderResource {
     private OrderService service;
 
     @PostMapping
-    public ResponseEntity<OrderWithoutPayment> saveOrder(@RequestBody OrderWithoutPayment dto) {
+    public ResponseEntity<OrderWithoutPaymentDTO> saveOrder(@RequestBody OrderWithoutPaymentDTO dto) {
         dto = service.saveOrder(dto);
         return ResponseEntity.ok().body(dto);
     }
