@@ -10,6 +10,7 @@ import com.gabrielsantos.backend.entities.User;
 import com.gabrielsantos.backend.entities.enums.OrderStatus;
 import com.gabrielsantos.backend.repositories.OrderRepository;
 import com.gabrielsantos.backend.services.exceptions.ForbiddenException;
+import com.gabrielsantos.backend.services.exceptions.PaymentMadeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +28,15 @@ public class OrderService {
     private PaymentService paymentService;
 
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private AuthService authService;
 
     @Transactional
     public OrderWithoutPaymentDTO saveOrder(OrderWithoutPaymentDTO dto) {
         Order entity = new Order();
-        entity.setClient(checkLoggedUser(dto));
+        entity.setClient(checkLoggedUser(dto.getClientId()));
         copyDtoToEntity(entity, dto);
         entity = repository.save(entity);
 
@@ -45,10 +49,16 @@ public class OrderService {
     @Transactional
     public OrderWithPaymentDTO addPayment(Long id, PaymentDTO dto) {
         Order entity = repository.getReferenceById(id);
-        entity.setClient(authService.authenticated());
-        entity.setPayment(paymentService.savePayment(dto));
-        repository.save(entity);
-        return new OrderWithPaymentDTO(entity);
+
+        if (paymentNotMade(entity)) {
+            entity.setPayment(paymentService.savePayment(dto));
+            entity.setOrderStatus(OrderStatus.PAID);
+            entity = repository.save(entity);
+            productService.updateQuantity(entity.getItems());
+            return new OrderWithPaymentDTO(entity, entity.getItems());
+        } else {
+            throw new PaymentMadeException("The payment for the order has already been made");
+        }
     }
 
     @Transactional
@@ -73,12 +83,16 @@ public class OrderService {
         }
     }
 
-    private User checkLoggedUser(OrderWithoutPaymentDTO dto) {
+    private User checkLoggedUser(Long userId) {
         User loggedUser = authService.authenticated();
 
-        if (loggedUser.getId().equals(dto.getClientId()))
+        if (loggedUser.getId().equals(userId))
             return loggedUser;
         else
             throw new ForbiddenException("The user who is making the request is not the one who is logged in.");
+    }
+
+    private boolean paymentNotMade(Order entity) {
+        return entity.getOrderStatus() == OrderStatus.WAITING_PAYMENT;
     }
 }

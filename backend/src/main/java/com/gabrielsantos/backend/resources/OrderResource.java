@@ -1,13 +1,15 @@
 package com.gabrielsantos.backend.resources;
 
+import com.gabrielsantos.backend.dto.OrderWithPaymentDTO;
 import com.gabrielsantos.backend.dto.OrderWithoutPaymentDTO;
+import com.gabrielsantos.backend.dto.PaymentDTO;
 import com.gabrielsantos.backend.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/api/orders")
@@ -19,7 +21,13 @@ public class OrderResource {
     @PostMapping
     public ResponseEntity<OrderWithoutPaymentDTO> saveOrder(@RequestBody OrderWithoutPaymentDTO dto) {
         dto = service.saveOrder(dto);
-        return ResponseEntity.ok().body(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
 
+    @PutMapping(value = "/{id}/payment")
+    public ResponseEntity<OrderWithPaymentDTO> addPayment(@PathVariable Long id, @RequestBody PaymentDTO dto) {
+        OrderWithPaymentDTO orderDTO = service.addPayment(id, dto);
+        return ResponseEntity.ok().body(orderDTO);
+    }
 }

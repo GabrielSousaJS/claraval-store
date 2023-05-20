@@ -36,7 +36,8 @@ public class Order implements Serializable {
     @Getter @Setter
     private User client;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "payment_id")
     @Getter @Setter
     private Payment payment;
 

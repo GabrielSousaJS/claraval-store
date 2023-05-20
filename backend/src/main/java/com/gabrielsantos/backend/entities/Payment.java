@@ -31,19 +31,13 @@ public class Payment implements Serializable {
     @Convert(converter = PaymentMethodConverter.class)
     private PaymentMethod paymentMethod;
 
-    @JsonIgnore
-    @OneToOne
-    @MapsId
-    private Order order;
-
     public Payment() {
     }
 
-    public Payment(Long id, Instant moment, PaymentMethod paymentMethod, Order order) {
+    public Payment(Long id, Instant moment, PaymentMethod paymentMethod) {
         this.id = id;
         this.moment = moment;
         this.paymentMethod = paymentMethod;
-        this.order = order;
     }
 
     @Override

@@ -7,8 +7,7 @@ public enum OrderStatus {
     WAITING_PAYMENT("Waiting payment"),
     PAID("Paid"),
     SHIPPED("Shipped"),
-    DELIVERED("Delivered"),
-    CANCELED("Canceled");
+    DELIVERED("Delivered");
 
     @Getter
     private String value;

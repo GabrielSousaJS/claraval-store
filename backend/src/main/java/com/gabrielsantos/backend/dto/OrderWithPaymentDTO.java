@@ -1,8 +1,11 @@
 package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.Order;
+import com.gabrielsantos.backend.entities.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Set;
 
 public class OrderWithPaymentDTO extends OrderWithoutPaymentDTO {
 
@@ -13,8 +16,8 @@ public class OrderWithPaymentDTO extends OrderWithoutPaymentDTO {
         super();
     }
 
-    public OrderWithPaymentDTO(Order entity) {
-        super();
+    public OrderWithPaymentDTO(Order entity, Set<OrderItem> items) {
+        super(entity, items);
         this.payment = new PaymentDTO(entity.getPayment());
     }
 }

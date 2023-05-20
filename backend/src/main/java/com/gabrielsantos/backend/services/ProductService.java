@@ -5,6 +5,7 @@ import com.gabrielsantos.backend.dto.ProductDTO;
 import com.gabrielsantos.backend.dto.ProductMinDTO;
 import com.gabrielsantos.backend.dto.ProductUpdateDTO;
 import com.gabrielsantos.backend.entities.Category;
+import com.gabrielsantos.backend.entities.OrderItem;
 import com.gabrielsantos.backend.entities.Product;
 import com.gabrielsantos.backend.repositories.CategoryRepository;
 import com.gabrielsantos.backend.repositories.ProductRepository;
@@ -20,7 +21,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ProductService {
@@ -123,5 +127,14 @@ public class ProductService {
     private boolean productExists(String name) {
         Product entity = repository.findByName(name);
         return entity != null;
+    }
+
+    public void updateQuantity(Set<OrderItem> items) {
+        for (OrderItem item : items) {
+            Integer newQuantity = item.getProduct().getQuantity() - item.getQuantity();
+            ProductUpdateDTO dto = new ProductUpdateDTO(item.getProduct());
+            dto.setQuantity(newQuantity);
+            update(item.getProduct().getId(), dto);
+        }
     }
 }

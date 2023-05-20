@@ -25,5 +25,4 @@ public class PaymentService {
         entity.setMoment(dto.getMoment());
         entity.setPaymentMethod(dto.getPaymentMethod());
     }
-
 }
