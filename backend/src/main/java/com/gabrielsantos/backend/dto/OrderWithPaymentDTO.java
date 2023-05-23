@@ -12,8 +12,8 @@ public class OrderWithPaymentDTO extends OrderWithoutPaymentDTO {
     @Getter @Setter
     private PaymentDTO payment;
 
-    public OrderWithPaymentDTO() {
-        super();
+    public OrderWithPaymentDTO(Order entity) {
+        super(entity);
     }
 
     public OrderWithPaymentDTO(Order entity, Set<OrderItem> items) {

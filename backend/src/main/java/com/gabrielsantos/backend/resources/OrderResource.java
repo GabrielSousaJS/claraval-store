@@ -30,4 +30,13 @@ public class OrderResource {
         OrderWithPaymentDTO orderDTO = service.addPayment(id, dto);
         return ResponseEntity.ok().body(orderDTO);
     }
+
+    @PutMapping(value = "/{id}/status")
+    public ResponseEntity<OrderWithPaymentDTO> updateOrderStatus(
+            @PathVariable Long id,
+            @RequestParam(value = "orderStatus", defaultValue = "") String orderStatus
+    ) {
+        OrderWithPaymentDTO dto = service.updateOrderStatus(id, orderStatus);
+        return ResponseEntity.ok().body(dto);
+    }
 }

@@ -62,11 +62,11 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderWithoutPaymentDTO updateOrderStatus(Long id, String orderStatus) {
+    public OrderWithPaymentDTO updateOrderStatus(Long id, String orderStatus) {
         Order entity = repository.getReferenceById(id);
         entity.setOrderStatus(OrderStatus.valueOf(orderStatus));
         repository.save(entity);
-        return new OrderWithoutPaymentDTO(entity);
+        return new OrderWithPaymentDTO(entity, entity.getItems());
     }
 
     private void copyDtoToEntity(Order entity, OrderWithoutPaymentDTO dto) {
