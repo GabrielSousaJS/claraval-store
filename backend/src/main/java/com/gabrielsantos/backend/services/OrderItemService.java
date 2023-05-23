@@ -52,13 +52,13 @@ public class OrderItemService {
         OrderItem entity = repository.getReferenceById(key);
 
         if (!checkItemQuantity(entity, quantity))
-            throw new QuantityException("We do not have that quantity in stock");
+            throw new QuantityException("The quantity of items is incorrect, check the value and try again");
 
         entity.setQuantity(quantity);
         repository.save(entity);
     }
 
     private boolean checkItemQuantity(OrderItem entity, Integer quantity) {
-        return entity.getQuantity() <= quantity;
+        return entity.getProduct().getQuantity() >= quantity && quantity > 0;
     }
 }

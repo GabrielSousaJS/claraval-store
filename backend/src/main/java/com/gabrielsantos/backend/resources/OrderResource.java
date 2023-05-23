@@ -4,12 +4,12 @@ import com.gabrielsantos.backend.dto.OrderWithPaymentDTO;
 import com.gabrielsantos.backend.dto.OrderWithoutPaymentDTO;
 import com.gabrielsantos.backend.dto.PaymentDTO;
 import com.gabrielsantos.backend.services.OrderService;
-import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
