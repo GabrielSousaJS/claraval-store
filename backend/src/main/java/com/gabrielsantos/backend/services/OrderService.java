@@ -11,10 +11,12 @@ import com.gabrielsantos.backend.entities.enums.OrderStatus;
 import com.gabrielsantos.backend.repositories.OrderRepository;
 import com.gabrielsantos.backend.services.exceptions.ForbiddenException;
 import com.gabrielsantos.backend.services.exceptions.PaymentMadeException;
+import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -76,6 +78,23 @@ public class OrderService {
         entity.setOrderStatus(OrderStatus.valueOf(orderStatus));
         repository.save(entity);
         return new OrderWithPaymentDTO(entity, entity.getItems());
+    }
+
+    @Transactional
+    public OrderWithoutPaymentDTO updateItem(Long orderId, Long productId, Integer quantity) {
+        try {
+            Order entity = repository.getReferenceById(orderId);
+
+            if (paymentNotMade(entity))
+                orderItemService.update(orderId, productId, quantity);
+            else
+                throw new PaymentMadeException("It is not possible to change the quantity of the items, the " +
+                        "payment has already been made");
+
+            return new OrderWithoutPaymentDTO(entity, entity.getItems());
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Order not found");
+        }
     }
 
     private void copyDtoToEntity(Order entity, OrderWithoutPaymentDTO dto) {

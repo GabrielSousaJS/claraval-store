@@ -6,10 +6,13 @@ import com.gabrielsantos.backend.entities.pk.OrderItemPk;
 import com.gabrielsantos.backend.repositories.OrderItemRepository;
 import com.gabrielsantos.backend.repositories.OrderRepository;
 import com.gabrielsantos.backend.repositories.ProductRepository;
+import com.gabrielsantos.backend.services.exceptions.QuantityException;
+import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -23,12 +26,6 @@ public class OrderItemService {
 
     @Autowired
     private ProductRepository productRepository;
-
-    @Transactional(readOnly = true)
-    public List<OrderItemDTO> findAllItemsOfOrder(Long orderId) {
-        List<OrderItem> list = repository.findAllItemsOfOrder(orderId);
-        return list.stream().map(OrderItemDTO::new).toList();
-    }
 
     @Transactional
     public OrderItem saveItem(Long orderId, OrderItemDTO dto) {
@@ -47,14 +44,21 @@ public class OrderItemService {
     }
 
     @Transactional
-    public OrderItemDTO update(OrderItemDTO dto) {
+    public void update(Long orderId, Long productId, Integer quantity) {
         OrderItemPk key = new OrderItemPk();
-        key.setOrder(orderRepository.getReferenceById(dto.getOrderId()));
-        key.setProduct(productRepository.getReferenceById(dto.getProduct().getId()));
+        key.setOrder(orderRepository.getReferenceById(orderId));
+        key.setProduct(productRepository.getReferenceById(productId));
 
         OrderItem entity = repository.getReferenceById(key);
-        entity.setQuantity(dto.getQuantity());
-        entity = repository.save(entity);
-        return new OrderItemDTO(entity);
+
+        if (!checkItemQuantity(entity, quantity))
+            throw new QuantityException("We do not have that quantity in stock");
+
+        entity.setQuantity(quantity);
+        repository.save(entity);
+    }
+
+    private boolean checkItemQuantity(OrderItem entity, Integer quantity) {
+        return entity.getQuantity() <= quantity;
     }
 }

@@ -4,6 +4,7 @@ import com.gabrielsantos.backend.dto.OrderWithPaymentDTO;
 import com.gabrielsantos.backend.dto.OrderWithoutPaymentDTO;
 import com.gabrielsantos.backend.dto.PaymentDTO;
 import com.gabrielsantos.backend.services.OrderService;
+import io.swagger.models.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +45,16 @@ public class OrderResource {
             @RequestParam(value = "orderStatus", defaultValue = "") String orderStatus
     ) {
         OrderWithPaymentDTO dto = service.updateOrderStatus(id, orderStatus);
+        return ResponseEntity.ok().body(dto);
+    }
+
+    @PutMapping(value = "/{id}/update-item")
+    public ResponseEntity<OrderWithoutPaymentDTO> updateItem(
+            @PathVariable Long id,
+            @RequestParam(value = "productId", defaultValue = "") Long productId,
+            @RequestParam(value = "quantity", defaultValue = "") Integer quantity
+    ) {
+        OrderWithoutPaymentDTO dto = service.updateItem(id, productId, quantity);
         return ResponseEntity.ok().body(dto);
     }
 }

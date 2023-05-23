@@ -85,6 +85,17 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
+    @ExceptionHandler(QuantityException.class)
+    ResponseEntity<StandardError> quantity(QuantityException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.PRECONDITION_FAILED;
+        StandardError err = new StandardError();
+        err.setTimestamp(Instant.now());
+        err.setStatus(status.value());
+        err.setError(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<OAuthCustomError> forbidden(ForbiddenException e) {
         OAuthCustomError err = new OAuthCustomError("Forbidden", e.getMessage());
