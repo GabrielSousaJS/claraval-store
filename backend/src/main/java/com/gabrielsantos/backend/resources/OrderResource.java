@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/orders")
@@ -17,6 +18,12 @@ public class OrderResource {
 
     @Autowired
     private OrderService service;
+
+    @GetMapping
+    public ResponseEntity<List<OrderWithoutPaymentDTO>> findAllByClientId() {
+        List<OrderWithoutPaymentDTO> list = service.findAllByClientId();
+        return ResponseEntity.ok().body(list);
+    }
 
     @PostMapping
     public ResponseEntity<OrderWithoutPaymentDTO> saveOrder(@RequestBody OrderWithoutPaymentDTO dto) {

@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class OrderService {
 
@@ -32,6 +34,13 @@ public class OrderService {
 
     @Autowired
     private AuthService authService;
+
+    @Transactional(readOnly = true)
+    public List<OrderWithoutPaymentDTO> findAllByClientId() {
+        User client = authService.authenticated();
+        List<Order> list = repository.findAllByClientId(client.getId());
+        return list.stream().map(order -> new OrderWithoutPaymentDTO(order, order.getItems())).toList();
+    }
 
     @Transactional
     public OrderWithoutPaymentDTO saveOrder(OrderWithoutPaymentDTO dto) {
