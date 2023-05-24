@@ -10,7 +10,9 @@ import com.gabrielsantos.backend.services.exceptions.DatabaseException;
 import com.gabrielsantos.backend.services.exceptions.QuantityException;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,9 +69,9 @@ public class OrderItemService {
         try {
             OrderItemPk key = instancePrimaryKey(orderId, productId);
             repository.deleteById(key);
-        } catch (EmptyResultDataAccessException | EntityNotFoundException e) {
+        } catch (EmptyResultDataAccessException | JpaObjectRetrievalFailureException e) {
             throw new ResourceNotFoundException("Item not found");
-        } catch (DatabaseException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Integraty violation");
         }
     }
