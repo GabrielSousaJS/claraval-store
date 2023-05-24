@@ -29,12 +29,6 @@ public class OrderItemDTO implements Serializable {
     public OrderItemDTO() {
     }
 
-    public OrderItemDTO(ProductMinDTO product, Integer quantity, Double price) {
-        this.product = product;
-        this.quantity = quantity;
-        this.subTotal = price;
-    }
-
     public OrderItemDTO(OrderItem entity) {
         orderId = entity.getOrder().getId();
         product = new ProductMinDTO(entity.getProduct());

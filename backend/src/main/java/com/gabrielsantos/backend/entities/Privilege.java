@@ -26,11 +26,6 @@ public class Privilege implements Serializable {
     public Privilege() {
     }
 
-    public Privilege(Long id, String authority) {
-        this.id = id;
-        this.authority = authority;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

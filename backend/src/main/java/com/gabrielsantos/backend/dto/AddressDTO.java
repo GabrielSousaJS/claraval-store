@@ -39,15 +39,6 @@ public class AddressDTO implements Serializable {
     public AddressDTO() {
     }
 
-    public AddressDTO(Long id, String publicPlace, String cep, Integer number, String city, String state) {
-        this.id = id;
-        this.publicPlace = publicPlace;
-        this.cep = cep;
-        this.number = number;
-        this.city = city;
-        this.state = state;
-    }
-
     public AddressDTO(Address entity) {
         id = entity.getId();
         publicPlace = entity.getPublicPlace();

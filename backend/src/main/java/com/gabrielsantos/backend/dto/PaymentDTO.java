@@ -24,12 +24,6 @@ public class PaymentDTO implements Serializable {
     public PaymentDTO() {
     }
 
-    public PaymentDTO(Long id, Instant moment, PaymentMethod paymentMethod) {
-        this.id = id;
-        this.moment = moment;
-        this.paymentMethod = paymentMethod;
-    }
-
     public PaymentDTO(Payment entity) {
         id = entity.getId();
         moment = entity.getMoment();

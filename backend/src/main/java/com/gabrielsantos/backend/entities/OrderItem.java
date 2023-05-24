@@ -5,11 +5,10 @@ import com.gabrielsantos.backend.entities.pk.OrderItemPk;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
@@ -24,14 +23,12 @@ public class OrderItem implements Serializable {
     private Integer quantity;
     private Double price;
 
-    public OrderItem() {
-    }
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updatedAt;
 
-    public OrderItem(Order order, Product product, Integer quantity, Double price) {
-        id.setOrder(order);
-        id.setProduct(product);
-        this.quantity = quantity;
-        this.price = price;
+    public OrderItem() {
     }
 
     @JsonIgnore
@@ -61,6 +58,16 @@ public class OrderItem implements Serializable {
 
     public Double getSubTotal() {
         return quantity * price;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
     }
 
     @Override

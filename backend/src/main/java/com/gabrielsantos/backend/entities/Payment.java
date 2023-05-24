@@ -1,6 +1,5 @@
 package com.gabrielsantos.backend.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gabrielsantos.backend.entities.enums.PaymentMethod;
 import com.gabrielsantos.backend.entities.enums.converters.PaymentMethodConverter;
 import lombok.Getter;

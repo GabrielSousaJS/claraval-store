@@ -28,12 +28,6 @@ public class ProductUpdateDTO implements Serializable {
     public ProductUpdateDTO() {
     }
 
-    public ProductUpdateDTO(String description, Double price, Integer quantity) {
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
     public ProductUpdateDTO(Product entity) {
         description = entity.getDescription();
         price = entity.getPrice();

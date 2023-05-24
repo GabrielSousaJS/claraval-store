@@ -45,24 +45,15 @@ public class Order implements Serializable {
     @Getter
     private Set<OrderItem> items = new HashSet<>();
 
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updatedAt;
+
     public Order() {
     }
 
-    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
-        this.id = id;
-        this.moment = moment;
-        this.orderStatus = orderStatus;
-        this.client = client;
-    }
-
-    public Double getTotal() {
-        Double sum = 0.0;
-
-        for (OrderItem purchases : items) {
-            sum += purchases.getSubTotal();
-        }
-
-        return sum;
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
     }
 
     @Override

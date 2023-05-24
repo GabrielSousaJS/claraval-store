@@ -38,15 +38,6 @@ public class Address implements Serializable {
     public Address() {
     }
 
-    public Address(Long id, String publicPlace, String cep, Integer number, String city, String state) {
-        this.id = id;
-        this.publicPlace = publicPlace;
-        this.cep = cep;
-        this.number = number;
-        this.city = city;
-        this.state = state;
-    }
-
     @PrePersist
     public void prePersist() {
         createdAt = Instant.now();

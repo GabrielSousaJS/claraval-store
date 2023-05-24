@@ -27,12 +27,6 @@ public class SellerDTO implements Serializable {
     public SellerDTO() {
     }
 
-    public SellerDTO(Long id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-    }
-
     public SellerDTO(User entity) {
         id = entity.getId();
         name = entity.getName();

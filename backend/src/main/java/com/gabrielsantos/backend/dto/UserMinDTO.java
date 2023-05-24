@@ -33,13 +33,6 @@ public class UserMinDTO implements Serializable {
     public UserMinDTO() {
     }
 
-    public UserMinDTO(Long id, String name, Instant birthDate, String email) {
-        this.id = id;
-        this.name = name;
-        this.birthDate = birthDate;
-        this.email = email;
-    }
-
     public UserMinDTO(User entity) {
         id = entity.getId();
         name = entity.getName();

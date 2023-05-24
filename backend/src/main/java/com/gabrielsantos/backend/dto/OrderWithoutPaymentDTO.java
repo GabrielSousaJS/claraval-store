@@ -32,13 +32,6 @@ public class OrderWithoutPaymentDTO implements Serializable {
     public OrderWithoutPaymentDTO() {
     }
 
-    public OrderWithoutPaymentDTO(Long id, Instant moment, OrderStatus orderStatus, Long userId) {
-        this.id = id;
-        this.moment = moment;
-        this.orderStatus = orderStatus;
-        this.clientId = userId;
-    }
-
     public OrderWithoutPaymentDTO(Order entity) {
         id = entity.getId();
         moment = entity.getMoment();
