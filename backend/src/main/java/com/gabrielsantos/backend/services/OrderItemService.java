@@ -46,13 +46,17 @@ public class OrderItemService {
 
     @Transactional
     public void update(Long orderId, Long productId, Integer quantity) {
-        OrderItemPk key = instancePrimaryKey(orderId, productId);
+        try {
+            OrderItemPk key = instancePrimaryKey(orderId, productId);
 
-        OrderItem entity = repository.getReferenceById(key);
+            OrderItem entity = repository.getReferenceById(key);
 
-        if (checkItemQuantity(entity, quantity)) {
-            entity.setQuantity(quantity);
-            repository.save(entity);
+            if (checkItemQuantity(entity, quantity)) {
+                entity.setQuantity(quantity);
+                repository.save(entity);
+            }
+        } catch (JpaObjectRetrievalFailureException e) {
+            throw new ResourceNotFoundException("Item not found");
         }
     }
 

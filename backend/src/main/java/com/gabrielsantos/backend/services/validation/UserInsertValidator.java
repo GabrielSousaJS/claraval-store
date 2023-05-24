@@ -3,7 +3,7 @@ package com.gabrielsantos.backend.services.validation;
 import com.gabrielsantos.backend.dto.UserInsertDTO;
 import com.gabrielsantos.backend.entities.User;
 import com.gabrielsantos.backend.repositories.UserRepository;
-import com.gabrielsantos.backend.resources.exceptions.FieldMessage;
+import com.gabrielsantos.backend.controllers.exceptions.FieldMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;

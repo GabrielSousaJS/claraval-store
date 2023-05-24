@@ -62,25 +62,33 @@ public class OrderService {
 
     @Transactional
     public OrderWithPaymentDTO addPayment(Long id, PaymentDTO dto) {
-        Order entity = repository.getReferenceById(id);
+        try {
+            Order entity = repository.getReferenceById(id);
 
-        if (paymentNotMade(entity)) {
-            entity.setPayment(paymentService.savePayment(dto));
-            entity.setOrderStatus(OrderStatus.PAID);
-            entity = repository.save(entity);
-            productService.updateQuantity(entity.getItems());
-            return new OrderWithPaymentDTO(entity, entity.getItems());
-        } else {
-            throw new PaymentMadeException("The payment for the order has already been made");
+            if (paymentNotMade(entity)) {
+                entity.setPayment(paymentService.savePayment(dto));
+                entity.setOrderStatus(OrderStatus.PAID);
+                entity = repository.save(entity);
+                productService.updateQuantity(entity.getItems());
+                return new OrderWithPaymentDTO(entity, entity.getItems());
+            } else {
+                throw new PaymentMadeException("The payment for the order has already been made");
+            }
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Order not found");
         }
     }
 
     @Transactional
     public OrderWithPaymentDTO updateOrderStatus(Long id, String orderStatus) {
-        Order entity = repository.getReferenceById(id);
-        entity.setOrderStatus(OrderStatus.valueOf(orderStatus));
-        repository.save(entity);
-        return new OrderWithPaymentDTO(entity, entity.getItems());
+        try {
+            Order entity = repository.getReferenceById(id);
+            entity.setOrderStatus(OrderStatus.valueOf(orderStatus));
+            repository.save(entity);
+            return new OrderWithPaymentDTO(entity, entity.getItems());
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Order not found");
+        }
     }
 
     @Transactional

@@ -1,9 +1,8 @@
-package com.gabrielsantos.backend.resources;
+package com.gabrielsantos.backend.controllers;
 
 import com.gabrielsantos.backend.dto.ProductDTO;
 import com.gabrielsantos.backend.dto.ProductMinDTO;
 import com.gabrielsantos.backend.dto.ProductUpdateDTO;
-import com.gabrielsantos.backend.entities.Product;
 import com.gabrielsantos.backend.services.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,7 +22,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = "/api/products")
 @Api(tags = "Product Resource", value = "ProductResource")
-public class ProductResource {
+public class ProductController {
 
     @Autowired
     private ProductService service;
@@ -84,6 +83,7 @@ public class ProductResource {
             @ApiResponse(code = 200, message = "Update product"),
             @ApiResponse(code = 401, message = "Unathorized feature"),
             @ApiResponse(code = 403, message = "Prohibited resource"),
+            @ApiResponse(code = 404, message = "Product not found"),
             @ApiResponse(code = 412, message = "Precondition not met")
     })
     public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto) {
@@ -97,7 +97,9 @@ public class ProductResource {
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Deleted product"),
             @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 403, message = "Prohibited action")
+            @ApiResponse(code = 403, message = "Prohibited action"),
+            @ApiResponse(code = 404, message = "Product not found"),
+            @ApiResponse(code = 500, message = "Integraty violation")
     })
     public ResponseEntity<Void> deleteById(@Valid @PathVariable Long id) {
         service.DeleteById(id);

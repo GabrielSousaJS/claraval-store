@@ -1,4 +1,4 @@
-package com.gabrielsantos.backend.resources.exceptions;
+package com.gabrielsantos.backend.controllers.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,12 +21,5 @@ public class StandardError implements Serializable {
     private String path;
 
     public StandardError() {
-    }
-
-    public StandardError(Instant timestamp, Integer status, String error, String path) {
-        this.timestamp = timestamp;
-        this.status = status;
-        this.error = error;
-        this.path = path;
     }
 }

@@ -1,4 +1,4 @@
-package com.gabrielsantos.backend.resources.exceptions;
+package com.gabrielsantos.backend.controllers.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;

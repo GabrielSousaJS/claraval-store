@@ -1,4 +1,4 @@
-package com.gabrielsantos.backend.resources;
+package com.gabrielsantos.backend.controllers;
 
 import com.gabrielsantos.backend.dto.CategoryDTO;
 import com.gabrielsantos.backend.services.CategoryService;
@@ -20,7 +20,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = "/api/categories")
 @Api(tags = "Category Resource", value = "CategoryResource")
-public class CategoryResource {
+public class CategoryController {
 
     @Autowired
     private CategoryService service;
@@ -54,7 +54,8 @@ public class CategoryResource {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Update category"),
             @ApiResponse(code = 401, message = "Unauthorized feature"),
-            @ApiResponse(code = 403, message = "Prohibited resource")
+            @ApiResponse(code = 403, message = "Prohibited resource"),
+            @ApiResponse(code = 404, message = "Category not found")
     })
     public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @Valid @RequestBody CategoryDTO dto) {
         dto = service.update(id, dto);
@@ -67,7 +68,9 @@ public class CategoryResource {
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Deleted category"),
             @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 403, message = "Prohibited action")
+            @ApiResponse(code = 403, message = "Prohibited action"),
+            @ApiResponse(code = 404, message = "Category not found"),
+            @ApiResponse(code = 500, message = "Integraty violation")
     })
     public ResponseEntity<Void> deleteById(@Valid @PathVariable Long id) {
         service.deleteById(id);

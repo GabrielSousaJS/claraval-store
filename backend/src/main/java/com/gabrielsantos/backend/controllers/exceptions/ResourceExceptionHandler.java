@@ -1,4 +1,4 @@
-package com.gabrielsantos.backend.resources.exceptions;
+package com.gabrielsantos.backend.controllers.exceptions;
 
 import com.gabrielsantos.backend.services.exceptions.*;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.gabrielsantos.backend.resources;
+package com.gabrielsantos.backend.controllers;
 
 import com.gabrielsantos.backend.dto.*;
 import com.gabrielsantos.backend.services.UserService;
@@ -20,7 +20,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(value = "/api/users")
 @Api(tags = "User Resource", value = "UserResource")
-public class UserResource {
+public class UserController {
 
     @Autowired
     private UserService service;
