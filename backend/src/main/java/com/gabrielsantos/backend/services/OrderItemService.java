@@ -6,14 +6,15 @@ import com.gabrielsantos.backend.entities.pk.OrderItemPk;
 import com.gabrielsantos.backend.repositories.OrderItemRepository;
 import com.gabrielsantos.backend.repositories.OrderRepository;
 import com.gabrielsantos.backend.repositories.ProductRepository;
+import com.gabrielsantos.backend.services.exceptions.DatabaseException;
 import com.gabrielsantos.backend.services.exceptions.QuantityException;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 
 @Service
 public class OrderItemService {
@@ -45,20 +46,37 @@ public class OrderItemService {
 
     @Transactional
     public void update(Long orderId, Long productId, Integer quantity) {
-        OrderItemPk key = new OrderItemPk();
-        key.setOrder(orderRepository.getReferenceById(orderId));
-        key.setProduct(productRepository.getReferenceById(productId));
+        OrderItemPk key = instancePrimaryKey(orderId, productId);
 
         OrderItem entity = repository.getReferenceById(key);
 
-        if (!checkItemQuantity(entity, quantity))
-            throw new QuantityException("The quantity of items is incorrect, check the value and try again");
+        if (checkItemQuantity(entity, quantity)) {
+            entity.setQuantity(quantity);
+            repository.save(entity);
+        }
+    }
 
-        entity.setQuantity(quantity);
-        repository.save(entity);
+    private OrderItemPk instancePrimaryKey(Long orderId, Long productId) {
+        OrderItemPk key = new OrderItemPk();
+        key.setOrder(orderRepository.getReferenceById(orderId));
+        key.setProduct(productRepository.getReferenceById(productId));
+        return key;
+    }
+
+    protected void delete(Long orderId, Long productId) {
+        try {
+            OrderItemPk key = instancePrimaryKey(orderId, productId);
+            repository.deleteById(key);
+        } catch (EmptyResultDataAccessException | EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Item not found");
+        } catch (DatabaseException e) {
+            throw new DatabaseException("Integraty violation");
+        }
     }
 
     private boolean checkItemQuantity(OrderItem entity, Integer quantity) {
-        return entity.getProduct().getQuantity() >= quantity && quantity > 0;
+        if (entity.getProduct().getQuantity() >= quantity && quantity > 0)
+            return true;
+        throw new QuantityException("The quantity of items is incorrect, check the value and try again");
     }
 }

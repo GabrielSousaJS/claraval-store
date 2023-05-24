@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -56,5 +55,20 @@ public class OrderResource {
     ) {
         OrderWithoutPaymentDTO dto = service.updateItem(id, productId, quantity);
         return ResponseEntity.ok().body(dto);
+    }
+
+    @DeleteMapping(value = "/delete-item")
+    public ResponseEntity<Void> deleteItem(
+            @RequestParam(value = "orderId", defaultValue = "") Long orderId,
+            @RequestParam(value = "productId", defaultValue = "") Long productId
+    ) {
+        service.deleteItem(orderId, productId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

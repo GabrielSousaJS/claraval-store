@@ -9,10 +9,13 @@ import com.gabrielsantos.backend.entities.OrderItem;
 import com.gabrielsantos.backend.entities.User;
 import com.gabrielsantos.backend.entities.enums.OrderStatus;
 import com.gabrielsantos.backend.repositories.OrderRepository;
+import com.gabrielsantos.backend.services.exceptions.DatabaseException;
 import com.gabrielsantos.backend.services.exceptions.ForbiddenException;
 import com.gabrielsantos.backend.services.exceptions.PaymentMadeException;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,6 +97,21 @@ public class OrderService {
             return new OrderWithoutPaymentDTO(entity, entity.getItems());
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Order not found");
+        }
+    }
+
+    @Transactional
+    public void deleteItem(Long orderId, Long productId) {
+        orderItemService.delete(orderId, productId);
+    }
+
+    public void deleteById(Long orderId) {
+        try {
+            repository.deleteById(orderId);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Order not found");
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Integraty violation");
         }
     }
 
