@@ -109,6 +109,24 @@ public class OrderService {
     }
 
     @Transactional
+    public OrderWithoutPaymentDTO addItemToOrder(Long orderId, OrderItemDTO dto) {
+        try {
+            Order entity = repository.getReferenceById(orderId);
+
+            if (paymentNotMade(entity)) {
+                OrderItem item = orderItemService.saveItem(orderId, dto);
+                entity.getItems().add(item);
+                repository.save(entity);
+                return new OrderWithoutPaymentDTO(entity, entity.getItems());
+            } else {
+                throw new PaymentMadeException("Payment has already been made, it is not possible to add new items");
+            }
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Item not found");
+        }
+    }
+
+    @Transactional
     public void deleteItem(Long orderId, Long productId) {
         orderItemService.delete(orderId, productId);
     }

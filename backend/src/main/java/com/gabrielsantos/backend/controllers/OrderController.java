@@ -1,5 +1,6 @@
 package com.gabrielsantos.backend.controllers;
 
+import com.gabrielsantos.backend.dto.OrderItemDTO;
 import com.gabrielsantos.backend.dto.OrderWithPaymentDTO;
 import com.gabrielsantos.backend.dto.OrderWithoutPaymentDTO;
 import com.gabrielsantos.backend.dto.PaymentDTO;
@@ -93,6 +94,22 @@ public class OrderController {
     ) {
         OrderWithoutPaymentDTO dto = service.updateItem(id, productId, quantity);
         return ResponseEntity.ok().body(dto);
+    }
+
+    @PutMapping(value = "/{id}/add-item")
+    @ApiOperation(value = "Add item to order")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Item added"),
+            @ApiResponse(code = 401, message = "Unathorized feature"),
+            @ApiResponse(code = 403, message = "Prohibited resource"),
+            @ApiResponse(code = 404, message = "Item not found")
+    })
+    public ResponseEntity<OrderWithoutPaymentDTO> addItemToOrder(
+            @PathVariable Long id,
+            @RequestBody OrderItemDTO dto
+    ) {
+        OrderWithoutPaymentDTO orderDTO = service.addItemToOrder(id, dto);
+        return ResponseEntity.ok().body(orderDTO);
     }
 
     @DeleteMapping(value = "/delete-item")

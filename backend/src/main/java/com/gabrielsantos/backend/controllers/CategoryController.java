@@ -70,7 +70,6 @@ public class CategoryController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 403, message = "Prohibited action"),
             @ApiResponse(code = 404, message = "Category not found"),
-            @ApiResponse(code = 500, message = "Integraty violation")
     })
     public ResponseEntity<Void> deleteById(@Valid @PathVariable Long id) {
         service.deleteById(id);
