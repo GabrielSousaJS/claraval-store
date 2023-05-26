@@ -29,6 +29,8 @@ public class Address implements Serializable {
     private String city;
     @Getter @Setter
     private String state;
+    @Getter @Setter
+    private String country;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant createdAt;

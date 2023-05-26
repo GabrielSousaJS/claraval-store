@@ -36,6 +36,10 @@ public class AddressDTO implements Serializable {
     @Getter @Setter
     private String state;
 
+    @NotBlank(message = "The field cannot be empty or blank.")
+    @Getter @Setter
+    private String country;
+
     public AddressDTO() {
     }
 
@@ -46,5 +50,6 @@ public class AddressDTO implements Serializable {
         number = entity.getNumber();
         city = entity.getCity();
         state = entity.getState();
+        country = entity.getCountry();
     }
 }

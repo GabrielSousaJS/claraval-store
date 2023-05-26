@@ -23,6 +23,7 @@ public class AddressService {
         entity.setNumber(userDTO.getAddress().getNumber());
         entity.setCity(userDTO.getAddress().getCity());
         entity.setState(userDTO.getAddress().getState());
+        entity.setCountry(userDTO.getAddress().getCountry());
 
         entity = repository.save(entity);
 
@@ -35,6 +36,7 @@ public class AddressService {
         entity.getAddress().setNumber(dto.getNumber());
         entity.getAddress().setCity(dto.getCity());
         entity.getAddress().setState(dto.getState());
+        entity.getAddress().setCountry(dto.getCountry());
 
         repository.save(entity.getAddress());
     }
