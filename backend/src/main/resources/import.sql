@@ -12,16 +12,16 @@ INSERT INTO categories (name, created_At) VALUES ('Books', NOW());
 INSERT INTO categories (name, created_At) VALUES ('Toys and games', NOW());
 
 -- Endereços
-INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua Augusta', '01305-100', 1200, 'São Paulo', 'São Paulo', NOW(), 'Brazil');
-INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Avenida Atlântica', '22011-010', 1500, 'Rio de Janeiro', 'Rio de Janeiro', NOW(), 'Brazil');
-INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua Sergipe', '30130-170', 800, 'Belo Horizonte', 'Minas Gerais', NOW(), 'Brazil');
-INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Setor Comercial Sul', '70390-901', 3, 'Brasília', 'Distrito Federal', NOW(), 'Brazil');
-INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua Visconde do Rio Branco', '80420-210', 1500, 'Curitiba', 'Paraná', NOW(), 'Brazil');
-INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Avenida Beira Mar', '60165-121', 100, 'Fortaleza', 'Ceára', NOW(), 'Brazil');
-INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua do Bom Jesus', '50030-170', 200, 'Recife', 'Pernambuco', NOW(), 'Brazil');
-INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Avenida Oceânica', '40140-130', 300, 'Salvador', 'Bahia', NOW(), 'Brazil');
-INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua Bocaiúva', '88015-530', 500, 'Florianópolis', 'Santa Catarina', NOW(), 'Brazil');
-INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua da Praia', '90010-230', 1000, 'Porto Alegre', 'Rio Grande do Sul', NOW(), 'Brazil');
+INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua Augusta', '01305-100', 1200, 'São Paulo', 'São Paulo', 'Brazil', NOW());
+INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Avenida Atlântica', '22011-010', 1500, 'Rio de Janeiro', 'Rio de Janeiro', 'Brazil', NOW());
+INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua Sergipe', '30130-170', 800, 'Belo Horizonte', 'Minas Gerais', 'Brazil', NOW());
+INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Setor Comercial Sul', '70390-901', 3, 'Brasília', 'Distrito Federal', 'Brazil', NOW());
+INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua Visconde do Rio Branco', '80420-210', 1500, 'Curitiba', 'Paraná', 'Brazil', NOW());
+INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Avenida Beira Mar', '60165-121', 100, 'Fortaleza', 'Ceára', 'Brazil', NOW());
+INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua do Bom Jesus', '50030-170', 200, 'Recife', 'Pernambuco', 'Brazil', NOW());
+INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Avenida Oceânica', '40140-130', 300, 'Salvador', 'Bahia', 'Brazil', NOW());
+INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua Bocaiúva', '88015-530', 500, 'Florianópolis', 'Santa Catarina', 'Brazil', NOW());
+INSERT INTO addresses (public_Place, cep, number, city, state, country, created_At) VALUES ('Rua da Praia', '90010-230', 1000, 'Porto Alegre', 'Rio Grande do Sul', 'Brazil', NOW());
 
 -- Usuários
 INSERT INTO users (name, birth_Date, email, password, address_id, created_At) VALUES ('Gabriela Oliveira', TIMESTAMP WITH TIME ZONE '1994-11-18', 'gabriela.oliveira@gmail.com', '$2a$10$R6Sppkl7ZTrqa0zc5m480.5j5yUJyls/qaRA2g47kuq2MqcjBcHIm', 1, NOW());
