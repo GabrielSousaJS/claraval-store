@@ -43,9 +43,9 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProductDTO> findProductsByCategory(Long categoryId) {
+    public List<ProductDTO> findProductsByCategory(Long categoryId, String name) {
         Category category = categoryRepository.getReferenceById(categoryId);
-        List<Product> list = repository.findProductsByCategory(category);
+        List<Product> list = repository.findProductsByCategory(category, name);
         return list.stream().map(product -> new ProductDTO(product, product.getCategories())).toList();
     }
 

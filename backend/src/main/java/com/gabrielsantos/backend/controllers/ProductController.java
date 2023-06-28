@@ -52,8 +52,11 @@ public class ProductController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Category products found"),
     })
-    public ResponseEntity<List<ProductDTO>> findProductsByCategory(@PathVariable Long categoryId) {
-        List<ProductDTO> listDto = service.findProductsByCategory(categoryId);
+    public ResponseEntity<List<ProductDTO>> findProductsByCategory(
+            @PathVariable Long categoryId,
+            @RequestParam(value = "name", defaultValue = "") String name
+    ) {
+        List<ProductDTO> listDto = service.findProductsByCategory(categoryId, name);
         return ResponseEntity.ok().body(listDto);
     }
 
