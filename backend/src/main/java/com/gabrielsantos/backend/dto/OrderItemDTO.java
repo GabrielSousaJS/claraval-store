@@ -16,7 +16,7 @@ public class OrderItemDTO implements Serializable {
     @Getter @Setter
     private Long orderId;
     @Getter @Setter
-    private ProductMinDTO product;
+    private ProductDTO product;
 
     @PositiveOrZero(message = "This value cannot be negative.")
     @Getter @Setter
@@ -31,7 +31,7 @@ public class OrderItemDTO implements Serializable {
 
     public OrderItemDTO(OrderItem entity) {
         orderId = entity.getOrder().getId();
-        product = new ProductMinDTO(entity.getProduct());
+        product = new ProductDTO(entity.getProduct());
         quantity = entity.getQuantity();
         subTotal = entity.getSubTotal();
     }

@@ -5,7 +5,6 @@ import lombok.Getter;
 public enum PaymentMethod {
 
     PIX("PIX"),
-    CARD("Card"),
     BANK_SLIP("Bank slip");
 
     @Getter

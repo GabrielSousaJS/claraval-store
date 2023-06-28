@@ -1,8 +1,6 @@
 package com.gabrielsantos.backend.repositories;
 
 import com.gabrielsantos.backend.entities.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -14,9 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT obj FROM User obj " +
             "WHERE :name = '' OR LOWER(obj.name) LIKE LOWER(CONCAT('%', :name, '%'))")
-    Page<User> findAllUser(String name, Pageable pageable);
-
-    @Query("SELECT DISTINCT obj FROM User obj INNER JOIN obj.privileges privilege " +
-            "WHERE (privilege.authority = 'ROLE_SELLER')")
-    Page<User> findAllSeller(Pageable pageable);
+    List<User> findAllUser(String name);
 }

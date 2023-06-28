@@ -1,16 +1,12 @@
 package com.gabrielsantos.backend.controllers;
 
 import com.gabrielsantos.backend.dto.ProductDTO;
-import com.gabrielsantos.backend.dto.ProductMinDTO;
-import com.gabrielsantos.backend.dto.ProductUpdateDTO;
 import com.gabrielsantos.backend.services.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/products")
@@ -28,15 +25,15 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping
-    @ApiOperation(value = "Get products paged")
+    @ApiOperation(value = "Get all products")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Products found"),
-            @ApiResponse(code = 404, message = "Products not found")
     })
-    public ResponseEntity<Page<ProductMinDTO>> findAllPaged(
-            @RequestParam(value = "name", defaultValue = "") String name, Pageable pageable) {
-        Page<ProductMinDTO> pageDto = service.findAllPaged(name, pageable);
-        return ResponseEntity.ok().body(pageDto);
+    public ResponseEntity<List<ProductDTO>> findAll(
+            @RequestParam(value = "name", defaultValue = "") String name
+    ) {
+        List<ProductDTO> listDto = service.findAll(name);
+        return ResponseEntity.ok().body(listDto);
     }
 
     @GetMapping(value = "/{id}")
@@ -50,19 +47,18 @@ public class ProductController {
         return ResponseEntity.ok().body(dto);
     }
 
-    @GetMapping(value = "/{categoryId}/filtercategory")
+    @GetMapping(value = "/filtercategory/{categoryId}")
     @ApiOperation(value = "Get products from category")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Category products found"),
-            @ApiResponse(code = 404, message = "Category products not found")
     })
-    public ResponseEntity<Page<ProductMinDTO>> findProductsByCategory(@PathVariable Long categoryId, Pageable pageable) {
-        Page<ProductMinDTO> pageDto = service.findProductsByCategory(categoryId, pageable);
-        return ResponseEntity.ok().body(pageDto);
+    public ResponseEntity<List<ProductDTO>> findProductsByCategory(@PathVariable Long categoryId) {
+        List<ProductDTO> listDto = service.findProductsByCategory(categoryId);
+        return ResponseEntity.ok().body(listDto);
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('SELLER', 'SELLER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Insert product")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Product created"),
@@ -77,7 +73,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/{id}")
-    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update product")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Update product"),
@@ -86,7 +82,7 @@ public class ProductController {
             @ApiResponse(code = 404, message = "Product not found"),
             @ApiResponse(code = 412, message = "Precondition not met")
     })
-    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductUpdateDTO dto) {
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO dto) {
         ProductDTO newDto = service.update(id, dto);
         return ResponseEntity.ok().body(newDto);
     }

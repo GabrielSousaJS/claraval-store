@@ -52,17 +52,6 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(err);
     }
 
-    @ExceptionHandler(DuplicateDataException.class)
-    public ResponseEntity<StandardError> duplicateData(DuplicateDataException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.PRECONDITION_FAILED;
-        StandardError err = new StandardError();
-        err.setTimestamp(Instant.now());
-        err.setStatus(status.value());
-        err.setError(e.getMessage());
-        err.setPath(request.getRequestURI());
-        return ResponseEntity.status(status).body(err);
-    }
-
     @ExceptionHandler(PaymentMadeException.class)
     public ResponseEntity<StandardError> paymentMade(PaymentMadeException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_ACCEPTABLE;

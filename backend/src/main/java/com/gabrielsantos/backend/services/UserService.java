@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,32 +41,15 @@ public class UserService implements UserDetailsService {
     private AddressService addressService;
 
     @Transactional(readOnly = true)
-    public Page<UserMinDTO> findAllPaged(String name, Pageable pageable) {
-        Page<User> page = repository.findAllUser(name, pageable);
-
-        if (page.getTotalElements() == 0) {
-            throw new ResourceNotFoundException("User '" + name + "' not found.");
-        }
-
-        return page.map(UserMinDTO::new);
+    public List<UserDTO> findAll(String name) {
+        List<User> list = repository.findAllUser(name);
+        return list.stream().map(UserDTO::new).toList();
     }
 
     @Transactional(readOnly = true)
     public UserDTO findById(Long id) {
         Optional<User> obj = repository.findById(id);
         User entity = obj.orElseThrow(() -> new ResourceNotFoundException("User not found."));
-        return new UserDTO(entity);
-    }
-
-    @Transactional(readOnly = true)
-    public Page<SellerDTO> findAllSellers(Pageable pageable) {
-        Page<User> page = repository.findAllSeller(pageable);
-        return page.map(SellerDTO::new);
-    }
-
-    @Transactional(readOnly = true)
-    public UserDTO getLoggedInUserInformation() {
-        User entity = authService.authenticated();
         return new UserDTO(entity);
     }
 
@@ -77,16 +61,6 @@ public class UserService implements UserDetailsService {
         client.setPassword(passwordEncoder.encode(dto.getPassword()));
         client = repository.save(client);
         return new UserDTO(client);
-    }
-
-    @Transactional
-    public UserDTO insertSeller(UserInsertDTO dto) {
-        User seller = new User();
-        copyDtoToEntityUser(seller, dto);
-        addPrivilegeSellerAndClient(seller);
-        seller.setPassword(passwordEncoder.encode(dto.getPassword()));
-        seller = repository.save(seller);
-        return new UserDTO(seller);
     }
 
     @Transactional
@@ -102,7 +76,7 @@ public class UserService implements UserDetailsService {
     public UserDTO updateUserAddress(AddressDTO dto) {
         User entity = authService.authenticated();
         addressService.copyDtoToEntityForUpdateAndSave(entity, dto);
-        repository.save(entity);
+        entity = repository.save(entity);
         return new UserDTO(entity);
     }
 
@@ -116,15 +90,11 @@ public class UserService implements UserDetailsService {
     private void copyDtoToEntityForUpdate(User entity, UserInsertDTO dto) {
         entity.setName(dto.getName());
         entity.setBirthDate(dto.getBirthDate());
+        entity.setEmail(dto.getEmail());
     }
 
     private void addPrivilegeClient(User entity) {
         privilegeService.insertClientPrivilege(entity);
-    }
-
-    private void addPrivilegeSellerAndClient(User entity) {
-        addPrivilegeClient(entity);
-        privilegeService.insertSellerPrivilege(entity);
     }
 
     @Override

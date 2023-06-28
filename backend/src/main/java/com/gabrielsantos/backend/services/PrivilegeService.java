@@ -16,9 +16,4 @@ public class PrivilegeService {
     public void insertClientPrivilege(User client) {
         client.getPrivileges().add(repository.findPrivilegeByAuthority("ROLE_CLIENT"));
     }
-
-    @Transactional(readOnly = true)
-    public void insertSellerPrivilege(User seller) {
-        seller.getPrivileges().add(repository.findPrivilegeByAuthority("ROLE_SELLER"));
-    }
 }

@@ -1,6 +1,5 @@
 package com.gabrielsantos.backend.config;
 
-import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +15,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +30,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private JwtTokenStore tokenStore;
 
-    private static final String[] PUBLIC = { "/api/oauth/token", "/h2-console/**", "/api/products/**", "/api/categories/**", "/api/users/sellers" };
+    private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**" };
+
+    private static final String[] GET_OPERATIONS = { "/api/products/**", "/api/categories/**", "/api/users/sellers" };
 
     private static final String[] SIGN_UP = { "/api/users" };
 
@@ -56,8 +58,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             http.headers().frameOptions().disable();
         }
 
-        http.authorizeRequests().antMatchers(PUBLIC).permitAll()
-                .antMatchers(HttpMethod.GET, PUBLIC).permitAll()
+        http.csrf().disable();
+
+        http.authorizeRequests()
+                .antMatchers(PUBLIC).permitAll()
+                .antMatchers(HttpMethod.GET, GET_OPERATIONS).permitAll()
                 .antMatchers(HttpMethod.POST, SIGN_UP).permitAll()
                 .antMatchers(SWAGGER).permitAll()
                 .anyRequest()
@@ -70,9 +75,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowedOriginPatterns(List.of("*"));
-        corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
+        corsConfig.setAllowedMethods(List.of("POST", "GET", "PUT", "DELETE", "PATCH"));
         corsConfig.setAllowCredentials(true);
-        corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        corsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
@@ -81,10 +86,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Bean
     public FilterRegistrationBean<CorsFilter> corsFilter() {
-        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter());
+        FilterRegistrationBean<CorsFilter> bean
+                = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
     }
-
 }
-
