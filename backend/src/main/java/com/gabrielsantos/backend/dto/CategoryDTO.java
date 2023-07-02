@@ -15,7 +15,7 @@ public class CategoryDTO implements Serializable {
     @Getter @Setter
     private Long id;
 
-    @NotBlank(message = "The field cannot be empty or blank.")
+    @NotBlank(message = "O campo não pode estar vazio ou em branco")
     @Getter @Setter
     private String name;
 

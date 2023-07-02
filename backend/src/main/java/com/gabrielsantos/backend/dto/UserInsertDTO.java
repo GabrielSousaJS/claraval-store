@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @UserInsertValid
 public class UserInsertDTO extends UserDTO {
 
-    @NotBlank(message = "This field cannot be empty or blank.")
+    @NotBlank(message = "Este campo não pode estar vazio ou em branco")
     @Getter @Setter
     private String password;
 

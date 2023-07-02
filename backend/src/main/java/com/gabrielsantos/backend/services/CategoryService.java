@@ -42,7 +42,7 @@ public class CategoryService {
             repository.save(entity);
             return new CategoryDTO(entity);
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Category not found for data update.");
+            throw new ResourceNotFoundException("Categoria não encontrada para atualização");
         }
     }
 
@@ -50,9 +50,9 @@ public class CategoryService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Category not found.");
+            throw new ResourceNotFoundException("Categoria não encontrada");
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("The category cannot be deleted. There are products that belong to her.");
+            throw new DatabaseException("A categoria não pode ser excluída. Existem produtos que pertencem a ela");
         }
     }
 }

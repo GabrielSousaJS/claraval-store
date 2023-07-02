@@ -72,10 +72,10 @@ public class OrderService {
                 productService.updateQuantity(entity.getItems());
                 return new OrderWithPaymentDTO(entity, entity.getItems());
             } else {
-                throw new PaymentMadeException("The payment for the order has already been made");
+                throw new PaymentMadeException("O pagamento da encomenda já foi efetuado");
             }
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Order not found");
+            throw new ResourceNotFoundException("Pedido não encontrado");
         }
     }
 
@@ -87,7 +87,7 @@ public class OrderService {
             repository.save(entity);
             return new OrderWithPaymentDTO(entity, entity.getItems());
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Order not found");
+            throw new ResourceNotFoundException("Pedido não encontrado");
         }
     }
 
@@ -99,12 +99,12 @@ public class OrderService {
             if (paymentNotMade(entity))
                 orderItemService.update(orderId, productId, quantity);
             else
-                throw new PaymentMadeException("It is not possible to change the quantity of the items, the " +
-                        "payment has already been made");
+                throw new PaymentMadeException("O pagamento já foi efeutado, não é possível alterar a " +
+                        "quantidade dos itens");
 
             return new OrderWithoutPaymentDTO(entity, entity.getItems());
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Order not found");
+            throw new ResourceNotFoundException("Pedido não encontrado");
         }
     }
 
@@ -119,10 +119,10 @@ public class OrderService {
                 repository.save(entity);
                 return new OrderWithoutPaymentDTO(entity, entity.getItems());
             } else {
-                throw new PaymentMadeException("Payment has already been made, it is not possible to add new items");
+                throw new PaymentMadeException("O pagamento já foi feito, não é possível adicionar novos itens");
             }
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Item not found");
+            throw new ResourceNotFoundException("Item não encontrado");
         }
     }
 
@@ -135,9 +135,9 @@ public class OrderService {
         try {
             repository.deleteById(orderId);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Order not found");
+            throw new ResourceNotFoundException("Pedido não encontrado");
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Integraty violation");
+            throw new DatabaseException("Não é possível deletar o pedido, pois ainda existem itens");
         }
     }
 
@@ -161,7 +161,7 @@ public class OrderService {
         if (loggedUser.getId().equals(userId))
             return loggedUser;
         else
-            throw new ForbiddenException("The user who is making the request is not the one who is logged in.");
+            throw new ForbiddenException("O usuário que está fazendo a solicitação não é o mesmo que está logado");
     }
 
     private boolean paymentNotMade(Order entity) {

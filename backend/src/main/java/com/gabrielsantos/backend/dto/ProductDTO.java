@@ -21,27 +21,27 @@ public class ProductDTO implements Serializable {
     @Getter @Setter
     private Long id;
 
-    @NotBlank(message = "The field cannot be empty or blank.")
+    @NotBlank(message = "Este campo não pode estar vazio ou em branco")
     @Getter @Setter
     private String name;
 
-    @NotBlank(message = "The field cannot be empty or blank.")
+    @NotBlank(message = "Este campo não pode estar vazio ou em branco")
     @Getter @Setter
     private String description;
 
-    @Positive(message = "This value cannot be negative or equal to zero.")
+    @Positive(message = "Este valor não pode ser negativo ou igual a zero")
     @Getter @Setter
     private Double price;
 
-    @Positive(message = "This value cannot be negative or equal to zero.")
+    @Positive(message = "Este valor não pode ser negativo ou igual a zero")
     @Getter @Setter
     private Integer quantity;
 
-    @NotNull(message = "This field cannot be null.")
+    @NotNull(message = "Este campo não pode ficar vazio")
     @Getter @Setter
     private String imgUrl;
 
-    @NotEmpty(message = "The product must belong to at least one category.")
+    @NotEmpty(message = "O produto necessita de ao menos uma categoria")
     @Getter
     private Set<CategoryDTO> categories = new HashSet<>();
 

@@ -38,7 +38,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
         Optional<Product> obj = repository.findById(id);
-        Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Product not found."));
+        Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado"));
         return new ProductDTO(entity, entity.getCategories());
     }
 
@@ -66,7 +66,7 @@ public class ProductService {
             repository.save(entity);
             return new ProductDTO(entity, entity.getCategories());
         } catch (EntityNotFoundException e) {
-            throw new ResourceNotFoundException("Product not found to update.");
+            throw new ResourceNotFoundException("Produto não encontrado para atualização");
         }
 
     }
@@ -75,9 +75,9 @@ public class ProductService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Product not found.");
+            throw new ResourceNotFoundException("Produto não encontrado");
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Integraty violation.");
+            throw new DatabaseException("Não é possível deletar o pedido, ele está em um pedido já realizado");
         }
     }
 

@@ -19,15 +19,15 @@ public class UserDTO implements Serializable {
     @Getter @Setter
     private Long id;
 
-    @NotBlank(message = "This field cannot be empty or blank.")
+    @NotBlank(message = "Este campo não pode estar vazio ou em branco")
     @Getter @Setter
     private String name;
 
-    @Past(message = "The date of birth must be in the past.")
+    @Past(message = "A data de nascimento não pode ser futura")
     @Getter @Setter
     private Instant birthDate;
 
-    @Email(message = "Please provide a valid email.")
+    @Email(message = "Por favor forneça um email válido")
     @Getter @Setter
     private String email;
 

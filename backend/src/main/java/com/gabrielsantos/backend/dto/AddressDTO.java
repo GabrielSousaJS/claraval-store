@@ -16,27 +16,27 @@ public class AddressDTO implements Serializable {
     @Getter @Setter
     private Long id;
 
-    @NotBlank(message = "The field cannot be empty or blank.")
+    @NotBlank(message = "O campo não pode estar vazio ou em branco")
     @Getter @Setter
     private String publicPlace;
 
-    @NotBlank(message = "The field cannot be empty or blank.")
+    @NotBlank(message = "O campo não pode estar vazio ou em branco")
     @Getter @Setter
     private String cep;
 
-    @Positive(message = "The number must be positive other than zero.")
+    @Positive(message = "O número deve ser positivo diferente de zero")
     @Getter @Setter
     private Integer number;
 
-    @NotBlank(message = "The field cannot be empty or blank.")
+    @NotBlank(message = "O campo não pode estar vazio ou em branco")
     @Getter @Setter
     private String city;
 
-    @NotBlank(message = "The field cannot be empty or blank.")
+    @NotBlank(message = "O campo não pode estar vazio ou em branco")
     @Getter @Setter
     private String state;
 
-    @NotBlank(message = "The field cannot be empty or blank.")
+    @NotBlank(message = "O campo não pode estar vazio ou em branco")
     @Getter @Setter
     private String country;
 

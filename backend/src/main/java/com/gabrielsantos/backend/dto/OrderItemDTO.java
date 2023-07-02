@@ -18,11 +18,11 @@ public class OrderItemDTO implements Serializable {
     @Getter @Setter
     private ProductDTO product;
 
-    @PositiveOrZero(message = "This value cannot be negative.")
+    @PositiveOrZero(message = "Este valor não pode ser negativo ou igual a zero")
     @Getter @Setter
     private Integer quantity;
 
-    @Positive(message = "This value cannot be negative or equal to zero.")
+    @Positive(message = "Este valor não pode ser negativo ou igual a zero")
     @Getter @Setter
     private Double subTotal;
 

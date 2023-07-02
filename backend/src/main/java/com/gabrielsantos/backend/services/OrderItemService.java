@@ -56,7 +56,7 @@ public class OrderItemService {
                 repository.save(entity);
             }
         } catch (JpaObjectRetrievalFailureException e) {
-            throw new ResourceNotFoundException("Item not found");
+            throw new ResourceNotFoundException("Item não encontrado");
         }
     }
 
@@ -72,15 +72,15 @@ public class OrderItemService {
             OrderItemPk key = instancePrimaryKey(orderId, productId);
             repository.deleteById(key);
         } catch (EmptyResultDataAccessException | JpaObjectRetrievalFailureException e) {
-            throw new ResourceNotFoundException("Item not found");
+            throw new ResourceNotFoundException("Item não encontrado");
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Integraty violation");
+            throw new DatabaseException("Não é possível deletar o item");
         }
     }
 
     private boolean checkItemQuantity(OrderItem entity, Integer quantity) {
         if (entity.getProduct().getQuantity() >= quantity && quantity > 0)
             return true;
-        throw new QuantityException("The quantity of items is incorrect, check the value and try again");
+        throw new QuantityException("A quantidade de itens está incorreta, verifique o valor e tente novamente");
     }
 }
