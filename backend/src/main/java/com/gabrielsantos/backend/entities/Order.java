@@ -45,6 +45,15 @@ public class Order implements Serializable {
     @Getter
     private Set<OrderItem> items = new HashSet<>();
 
+    public Double getTotal() {
+        Double sum = 0.0;
+        for (OrderItem purchases : items) {
+            sum += purchases.getSubTotal();
+        }
+
+        return sum;
+    }
+
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant updatedAt;
 

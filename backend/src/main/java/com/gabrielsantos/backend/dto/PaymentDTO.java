@@ -1,7 +1,6 @@
 package com.gabrielsantos.backend.dto;
 
 import com.gabrielsantos.backend.entities.Payment;
-import com.gabrielsantos.backend.entities.enums.PaymentMethod;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,8 +17,6 @@ public class PaymentDTO implements Serializable {
     private Long id;
     @Getter @Setter
     private Instant moment;
-    @Getter @Setter
-    private PaymentMethod paymentMethod;
 
     public PaymentDTO() {
     }
@@ -27,7 +24,6 @@ public class PaymentDTO implements Serializable {
     public PaymentDTO(Payment entity) {
         id = entity.getId();
         moment = entity.getMoment();
-        paymentMethod = entity.getPaymentMethod();
     }
 
     @Override

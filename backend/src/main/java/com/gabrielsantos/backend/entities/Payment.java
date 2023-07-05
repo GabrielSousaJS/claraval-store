@@ -1,7 +1,5 @@
 package com.gabrielsantos.backend.entities;
 
-import com.gabrielsantos.backend.entities.enums.PaymentMethod;
-import com.gabrielsantos.backend.entities.enums.converters.PaymentMethodConverter;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,17 +24,12 @@ public class Payment implements Serializable {
     @Getter @Setter
     private Instant moment;
 
-    @Getter @Setter
-    @Convert(converter = PaymentMethodConverter.class)
-    private PaymentMethod paymentMethod;
-
     public Payment() {
     }
 
-    public Payment(Long id, Instant moment, PaymentMethod paymentMethod) {
+    public Payment(Long id, Instant moment) {
         this.id = id;
         this.moment = moment;
-        this.paymentMethod = paymentMethod;
     }
 
     @Override

@@ -23,6 +23,5 @@ public class PaymentService {
 
     private void copyDtoToEntity(Payment entity, PaymentDTO dto) {
         entity.setMoment(dto.getMoment());
-        entity.setPaymentMethod(dto.getPaymentMethod());
     }
 }

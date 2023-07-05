@@ -22,7 +22,8 @@ public class OrderWithoutPaymentDTO implements Serializable {
     private Instant moment;
     @Getter @Setter
     private OrderStatus orderStatus;
-
+    @Getter @Setter
+    private Double getTotal;
     @Getter @Setter
     private Long clientId;
 
@@ -36,6 +37,7 @@ public class OrderWithoutPaymentDTO implements Serializable {
         id = entity.getId();
         moment = entity.getMoment();
         orderStatus = entity.getOrderStatus();
+        getTotal = entity.getTotal();
         clientId = entity.getClient().getId();
     }
 

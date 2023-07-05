@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -24,6 +25,13 @@ public class CategoryService {
     public List<CategoryDTO> findAll() {
         List<Category> list = repository.findAll();
         return list.stream().map(CategoryDTO::new).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public CategoryDTO findById(Long id) {
+        Optional<Category> obj = repository.findById(id);
+        Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
+        return new CategoryDTO(entity);
     }
 
     @Transactional

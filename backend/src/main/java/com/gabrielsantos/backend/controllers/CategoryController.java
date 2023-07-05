@@ -32,6 +32,14 @@ public class CategoryController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping(value = "/{id}")
+    @ApiOperation(value = "Get category by id")
+    @ApiResponse(code = 200, message = "Categories found")
+    public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
+        CategoryDTO dto = service.findById(id);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Insert category")
