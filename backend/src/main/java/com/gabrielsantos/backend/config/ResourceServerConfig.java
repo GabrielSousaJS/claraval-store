@@ -36,15 +36,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] SIGN_UP = { "/api/users" };
 
-    private static final String[] SWAGGER = {
-            "/v2/api-docs",
-            "/configuration/ui",
-            "/swagger-resources/**",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**"
-    };
-
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.tokenStore(tokenStore);
@@ -64,7 +55,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(PUBLIC).permitAll()
                 .antMatchers(HttpMethod.GET, GET_OPERATIONS).permitAll()
                 .antMatchers(HttpMethod.POST, SIGN_UP).permitAll()
-                .antMatchers(SWAGGER).permitAll()
                 .anyRequest()
                 .authenticated();
 
