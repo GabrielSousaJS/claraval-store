@@ -7,6 +7,7 @@ import com.gabrielsantos.backend.dto.PaymentDTO;
 import com.gabrielsantos.backend.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -19,6 +20,13 @@ public class OrderController {
 
     @Autowired
     private OrderService service;
+
+    @GetMapping(value = "/all-orders")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<OrderWithPaymentDTO>> findAll() {
+        List<OrderWithPaymentDTO> list = service.findAll();
+        return ResponseEntity.ok().body(list);
+    }
 
     @GetMapping
     public ResponseEntity<List<OrderWithoutPaymentDTO>> findAllByClientId() {

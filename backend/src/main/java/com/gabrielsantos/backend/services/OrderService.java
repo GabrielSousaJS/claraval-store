@@ -41,6 +41,12 @@ public class OrderService {
     private AuthService authService;
 
     @Transactional(readOnly = true)
+    public List<OrderWithPaymentDTO> findAll() {
+        List<Order> list = repository.findAll();
+        return list.stream().map(order -> new OrderWithPaymentDTO(order, order.getItems())).toList();
+    }
+
+    @Transactional(readOnly = true)
     public List<OrderWithoutPaymentDTO> findAllByClientId() {
         User client = authService.authenticated();
         List<Order> list = repository.findAllByClientId(client.getId());
@@ -67,7 +73,7 @@ public class OrderService {
 
             if (paymentNotMade(entity)) {
                 entity.setPayment(paymentService.savePayment(dto));
-                entity.setOrderStatus(OrderStatus.PAID);
+                entity.setOrderStatus(OrderStatus.PAGO);
                 entity = repository.save(entity);
                 productService.updateQuantity(entity.getItems());
                 return new OrderWithPaymentDTO(entity, entity.getItems());
@@ -165,6 +171,6 @@ public class OrderService {
     }
 
     private boolean paymentNotMade(Order entity) {
-        return entity.getOrderStatus() == OrderStatus.WAITING_PAYMENT;
+        return entity.getOrderStatus() == OrderStatus.AGUARDANDO_PAGAMENTO;
     }
 }

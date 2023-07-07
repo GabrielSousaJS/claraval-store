@@ -100,7 +100,7 @@ public class ProductService {
     public void updateQuantity(Set<OrderItem> items) {
         for (OrderItem item : items) {
             Integer newQuantity = item.getProduct().getQuantity() - item.getQuantity();
-            ProductDTO dto = new ProductDTO(item.getProduct());
+            ProductDTO dto = new ProductDTO(item.getProduct(), item.getProduct().getCategories());
             dto.setQuantity(newQuantity);
             update(item.getProduct().getId(), dto);
         }

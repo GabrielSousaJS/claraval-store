@@ -4,10 +4,10 @@ import lombok.Getter;
 
 public enum OrderStatus {
 
-    WAITING_PAYMENT("Waiting payment"),
-    PAID("Paid"),
-    SHIPPED("Shipped"),
-    DELIVERED("Delivered");
+    AGUARDANDO_PAGAMENTO("Aguardando pagamento"),
+    PAGO("Pago"),
+    ENVIADO("Enviado"),
+    ENTREGUE("Entregue");
 
     @Getter
     private String value;
