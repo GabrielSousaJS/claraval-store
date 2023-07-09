@@ -44,6 +44,15 @@ public class UserController {
         return ResponseEntity.created(uri).body(newDto);
     }
 
+    @PostMapping(value = "/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserDTO> insertAdmin(@Valid @RequestBody UserInsertDTO dto) {
+        UserDTO newDto = service.insertAdmin(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
+                .buildAndExpand(newDto.getId()).toUri();
+        return ResponseEntity.created(uri).body(newDto);
+    }
+
     @PutMapping(value = "/update-personal-information")
     public ResponseEntity<UserDTO> updatePersonalInformation(@Valid @RequestBody UserInsertDTO dto) {
         UserDTO newDto = service.updatePersonalInformation(dto);

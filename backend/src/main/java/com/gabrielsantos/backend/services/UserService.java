@@ -64,6 +64,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
+    public UserDTO insertAdmin(UserInsertDTO dto) {
+        User admin = new User();
+        copyDtoToEntityUser(admin, dto);
+        addPrivilegeAdmin(admin);
+        addPrivilegeClient(admin);
+        admin.setPassword(passwordEncoder.encode(dto.getPassword()));
+        admin = repository.save(admin);
+        return new UserDTO(admin);
+    }
+
+    @Transactional
     public UserDTO updatePersonalInformation(UserInsertDTO dto) {
         User entity = authService.authenticated();
         copyDtoToEntityForUpdate(entity, dto);
@@ -95,6 +106,10 @@ public class UserService implements UserDetailsService {
 
     private void addPrivilegeClient(User entity) {
         privilegeService.insertClientPrivilege(entity);
+    }
+
+    private void addPrivilegeAdmin(User entity) {
+        privilegeService.insertAdminPrivilege(entity);
     }
 
     @Override
