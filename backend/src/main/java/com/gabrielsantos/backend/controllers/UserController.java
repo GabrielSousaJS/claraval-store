@@ -1,8 +1,8 @@
 package com.gabrielsantos.backend.controllers;
 
-import com.gabrielsantos.backend.dto.AddressDTO;
 import com.gabrielsantos.backend.dto.UserDTO;
 import com.gabrielsantos.backend.dto.UserInsertDTO;
+import com.gabrielsantos.backend.services.RegistryService;
 import com.gabrielsantos.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +20,9 @@ public class UserController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private RegistryService registryService;
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -50,18 +53,9 @@ public class UserController {
         UserDTO newDto = service.insertAdmin(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
                 .buildAndExpand(newDto.getId()).toUri();
+        registryService.registryAction("Inserindo usuário administrador", "POST");
         return ResponseEntity.created(uri).body(newDto);
     }
 
-    @PutMapping(value = "/update-personal-information")
-    public ResponseEntity<UserDTO> updatePersonalInformation(@Valid @RequestBody UserInsertDTO dto) {
-        UserDTO newDto = service.updatePersonalInformation(dto);
-        return ResponseEntity.ok().body(newDto);
-    }
 
-    @PutMapping(value = "/update-address")
-    public ResponseEntity<UserDTO> updateAddressUser(@Valid @RequestBody AddressDTO dto) {
-        UserDTO userDTO = service.updateUserAddress(dto);
-        return ResponseEntity.ok().body(userDTO);
-    }
 }

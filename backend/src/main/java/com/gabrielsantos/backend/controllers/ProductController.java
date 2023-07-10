@@ -2,6 +2,7 @@ package com.gabrielsantos.backend.controllers;
 
 import com.gabrielsantos.backend.dto.ProductDTO;
 import com.gabrielsantos.backend.services.ProductService;
+import com.gabrielsantos.backend.services.RegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +19,9 @@ public class ProductController {
 
     @Autowired
     private ProductService service;
+
+    @Autowired
+    private RegistryService registryService;
 
     @GetMapping
     public ResponseEntity<List<ProductDTO>> findAll(
@@ -47,6 +51,7 @@ public class ProductController {
     public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+        registryService.registryAction("Adicionando um produto", "POST");
         return ResponseEntity.created(uri).body(dto);
     }
 
@@ -54,6 +59,7 @@ public class ProductController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO dto) {
         ProductDTO newDto = service.update(id, dto);
+        registryService.registryAction("Atualizando um produto", "PUT");
         return ResponseEntity.ok().body(newDto);
     }
 
@@ -61,6 +67,8 @@ public class ProductController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteById(@Valid @PathVariable Long id) {
         service.DeleteById(id);
+
+        registryService.registryAction("Apagando um produto", "DELETE");
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,10 +1,12 @@
 package com.gabrielsantos.backend.controllers;
 
+
 import com.gabrielsantos.backend.dto.OrderItemDTO;
 import com.gabrielsantos.backend.dto.OrderWithPaymentDTO;
 import com.gabrielsantos.backend.dto.OrderWithoutPaymentDTO;
 import com.gabrielsantos.backend.dto.PaymentDTO;
 import com.gabrielsantos.backend.services.OrderService;
+import com.gabrielsantos.backend.services.RegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +22,9 @@ public class OrderController {
 
     @Autowired
     private OrderService service;
+
+    @Autowired
+    private RegistryService registryService;
 
     @GetMapping(value = "/all-orders")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -38,12 +43,14 @@ public class OrderController {
     public ResponseEntity<OrderWithoutPaymentDTO> saveOrder(@RequestBody OrderWithoutPaymentDTO dto) {
         dto = service.saveOrder(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(dto.getId()).toUri();
+        registryService.registryAction("Salvar pedido", "POST");
         return ResponseEntity.created(uri).body(dto);
     }
 
     @PutMapping(value = "/{id}/payment")
     public ResponseEntity<OrderWithPaymentDTO> addPayment(@PathVariable Long id, @RequestBody PaymentDTO dto) {
         OrderWithPaymentDTO orderDTO = service.addPayment(id, dto);
+        registryService.registryAction("Adicionar pagamento", "PUT");
         return ResponseEntity.ok().body(orderDTO);
     }
 
@@ -53,6 +60,7 @@ public class OrderController {
             @RequestParam(value = "orderStatus", defaultValue = "") String orderStatus
     ) {
         OrderWithPaymentDTO dto = service.updateOrderStatus(id, orderStatus);
+        registryService.registryAction("Atualizar status", "PUT");
         return ResponseEntity.ok().body(dto);
     }
 
@@ -63,6 +71,7 @@ public class OrderController {
             @RequestParam(value = "quantity", defaultValue = "") Integer quantity
     ) {
         OrderWithoutPaymentDTO dto = service.updateItem(id, productId, quantity);
+        registryService.registryAction("Atualizar item do pedido", "PUT");
         return ResponseEntity.ok().body(dto);
     }
 
@@ -72,6 +81,7 @@ public class OrderController {
             @RequestBody OrderItemDTO dto
     ) {
         OrderWithoutPaymentDTO orderDTO = service.addItemToOrder(id, dto);
+        registryService.registryAction("Adicionar item ao pedido", "PUT");
         return ResponseEntity.ok().body(orderDTO);
     }
 
@@ -81,12 +91,8 @@ public class OrderController {
             @RequestParam(value = "productId", defaultValue = "") Long productId
     ) {
         service.deleteItem(orderId, productId);
+        registryService.registryAction("Apagar item do pedido", "DELETE");
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
 }

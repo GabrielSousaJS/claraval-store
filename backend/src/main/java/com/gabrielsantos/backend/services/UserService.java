@@ -1,14 +1,13 @@
 package com.gabrielsantos.backend.services;
 
-import com.gabrielsantos.backend.dto.*;
+import com.gabrielsantos.backend.dto.UserDTO;
+import com.gabrielsantos.backend.dto.UserInsertDTO;
 import com.gabrielsantos.backend.entities.User;
 import com.gabrielsantos.backend.repositories.UserRepository;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,9 +29,6 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
-
-    @Autowired
-    private AuthService authService;
 
     @Autowired
     private PrivilegeService privilegeService;
@@ -74,34 +70,11 @@ public class UserService implements UserDetailsService {
         return new UserDTO(admin);
     }
 
-    @Transactional
-    public UserDTO updatePersonalInformation(UserInsertDTO dto) {
-        User entity = authService.authenticated();
-        copyDtoToEntityForUpdate(entity, dto);
-        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
-        repository.save(entity);
-        return new UserDTO(entity);
-    }
-
-    @Transactional
-    public UserDTO updateUserAddress(AddressDTO dto) {
-        User entity = authService.authenticated();
-        addressService.copyDtoToEntityForUpdateAndSave(entity, dto);
-        entity = repository.save(entity);
-        return new UserDTO(entity);
-    }
-
     private void copyDtoToEntityUser(User user, UserDTO dto) {
         user.setName(dto.getName());
         user.setBirthDate(dto.getBirthDate());
         user.setEmail(dto.getEmail());
         user.setAddress(addressService.copyDtoToEntityAndSave(dto));
-    }
-
-    private void copyDtoToEntityForUpdate(User entity, UserInsertDTO dto) {
-        entity.setName(dto.getName());
-        entity.setBirthDate(dto.getBirthDate());
-        entity.setEmail(dto.getEmail());
     }
 
     private void addPrivilegeClient(User entity) {

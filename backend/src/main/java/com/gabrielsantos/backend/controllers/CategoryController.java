@@ -2,6 +2,7 @@ package com.gabrielsantos.backend.controllers;
 
 import com.gabrielsantos.backend.dto.CategoryDTO;
 import com.gabrielsantos.backend.services.CategoryService;
+import com.gabrielsantos.backend.services.RegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +19,9 @@ public class CategoryController {
 
     @Autowired
     private CategoryService service;
+
+    @Autowired
+    private RegistryService registryService;
 
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> findAll() {
@@ -36,6 +40,7 @@ public class CategoryController {
     public ResponseEntity<CategoryDTO> insert(@Valid @RequestBody CategoryDTO dto) {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+        registryService.registryAction("Adicionando categoria", "POST");
         return ResponseEntity.created(uri).body(dto);
     }
 
@@ -43,6 +48,7 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @Valid @RequestBody CategoryDTO dto) {
         dto = service.update(id, dto);
+        registryService.registryAction("Atualizando categoria", "PUT");
         return ResponseEntity.ok().body(dto);
     }
 
@@ -50,6 +56,7 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteById(@Valid @PathVariable Long id) {
         service.deleteById(id);
+        registryService.registryAction("Apagando categoria", "DELETE");
         return ResponseEntity.noContent().build();
     }
 }

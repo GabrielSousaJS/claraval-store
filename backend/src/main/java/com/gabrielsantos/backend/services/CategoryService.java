@@ -60,7 +60,7 @@ public class CategoryService {
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Categoria não encontrada");
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("A categoria não pode ser excluída. Existem produtos que pertencem a ela");
+            throw new DatabaseException("Erro de integridade referencial. Existem produtos cadastrados nessa categoria.");
         }
     }
 }

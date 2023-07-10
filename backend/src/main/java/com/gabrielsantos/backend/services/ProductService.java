@@ -77,7 +77,7 @@ public class ProductService {
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Produto não encontrado");
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Não é possível deletar o pedido, ele está em um pedido já realizado");
+            throw new DatabaseException("Erro de integridade referencial. O produto já está em um pedido!");
         }
     }
 

@@ -137,16 +137,6 @@ public class OrderService {
         orderItemService.delete(orderId, productId);
     }
 
-    public void deleteById(Long orderId) {
-        try {
-            repository.deleteById(orderId);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("Pedido não encontrado");
-        } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Não é possível deletar o pedido, pois ainda existem itens");
-        }
-    }
-
     private void copyDtoToEntity(Order entity, OrderWithoutPaymentDTO dto) {
         entity.setMoment(dto.getMoment());
         entity.setOrderStatus(dto.getOrderStatus());
