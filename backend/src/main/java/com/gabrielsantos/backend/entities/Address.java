@@ -4,16 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
 @Entity
 @Table(name = "addresses")
-public class Address implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

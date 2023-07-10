@@ -4,15 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb_privilege")
-public class Privilege implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class Privilege {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

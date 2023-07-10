@@ -6,20 +6,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
 @Entity
 @Table(name = "order_item")
-public class OrderItem implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class OrderItem {
 
     @EmbeddedId
     private OrderItemPk id = new OrderItemPk();
-    @Getter @Setter
+    @Getter
+    @Setter
     private Integer quantity;
     private Double price;
 

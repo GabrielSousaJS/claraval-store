@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Objects;
@@ -15,30 +13,33 @@ import java.util.Set;
 
 @Entity
 @Table(name = "orders")
-public class Order implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter @Setter
+    @Getter
+    @Setter
     private Long id;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Instant moment;
-    @Getter @Setter
+    @Getter
+    @Setter
     @Convert(converter = OrderStatusConverter.class)
     private OrderStatus orderStatus;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    @Getter @Setter
+    @Getter
+    @Setter
     private User client;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "payment_id")
-    @Getter @Setter
+    @Getter
+    @Setter
     private Payment payment;
 
     @OneToMany(mappedBy = "id.order")
