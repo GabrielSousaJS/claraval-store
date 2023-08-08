@@ -1,7 +1,7 @@
 package com.gabrielsantos.backend.entities;
 
-import com.gabrielsantos.backend.entities.enums.OrderStatus;
 import com.gabrielsantos.backend.entities.enums.converters.OrderStatusConverter;
+import com.gabrielsantos.backend.entities.enums.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
 

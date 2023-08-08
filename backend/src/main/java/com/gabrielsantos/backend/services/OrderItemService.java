@@ -3,10 +3,10 @@ package com.gabrielsantos.backend.services;
 import com.gabrielsantos.backend.dto.OrderItemDTO;
 import com.gabrielsantos.backend.entities.OrderItem;
 import com.gabrielsantos.backend.entities.pk.OrderItemPk;
+import com.gabrielsantos.backend.services.exceptions.DatabaseException;
 import com.gabrielsantos.backend.repositories.OrderItemRepository;
 import com.gabrielsantos.backend.repositories.OrderRepository;
 import com.gabrielsantos.backend.repositories.ProductRepository;
-import com.gabrielsantos.backend.services.exceptions.DatabaseException;
 import com.gabrielsantos.backend.services.exceptions.QuantityException;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,10 @@ public class OrderItemService {
     private OrderItemRepository repository;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderRepository orderDAO;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductRepository productDAO;
 
     @Transactional
     public OrderItem saveItem(Long orderId, OrderItemDTO dto) {
@@ -38,8 +38,8 @@ public class OrderItemService {
     }
 
     private void copyDtoToEntity(OrderItem entity, OrderItemDTO dto) {
-        entity.setOrder(orderRepository.getReferenceById(dto.getOrderId()));
-        entity.setProduct(productRepository.getReferenceById(dto.getProduct().getId()));
+        entity.setOrder(orderDAO.getReferenceById(dto.getOrderId()));
+        entity.setProduct(productDAO.getReferenceById(dto.getProduct().getId()));
         entity.setQuantity(dto.getQuantity());
         entity.setPrice(entity.getPrice());
     }
@@ -62,8 +62,8 @@ public class OrderItemService {
 
     private OrderItemPk instancePrimaryKey(Long orderId, Long productId) {
         OrderItemPk key = new OrderItemPk();
-        key.setOrder(orderRepository.getReferenceById(orderId));
-        key.setProduct(productRepository.getReferenceById(productId));
+        key.setOrder(orderDAO.getReferenceById(orderId));
+        key.setProduct(productDAO.getReferenceById(productId));
         return key;
     }
 

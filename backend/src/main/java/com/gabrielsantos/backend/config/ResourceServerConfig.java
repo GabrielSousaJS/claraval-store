@@ -32,7 +32,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] PUBLIC = { "/oauth/token", "/h2-console/**" };
 
-    private static final String[] GET_OPERATIONS = { "/api/products/**", "/api/categories/**", "/api/users/sellers" };
+    private static final String[] GET_OPERATIONS = { "/api/products/**", "/api/categories/**" };
 
     private static final String[] SIGN_UP = { "/api/users" };
 

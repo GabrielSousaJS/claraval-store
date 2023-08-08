@@ -2,8 +2,8 @@ package com.gabrielsantos.backend.services;
 
 import com.gabrielsantos.backend.dto.CategoryDTO;
 import com.gabrielsantos.backend.entities.Category;
-import com.gabrielsantos.backend.repositories.CategoryRepository;
 import com.gabrielsantos.backend.services.exceptions.DatabaseException;
+import com.gabrielsantos.backend.repositories.CategoryRepository;
 import com.gabrielsantos.backend.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

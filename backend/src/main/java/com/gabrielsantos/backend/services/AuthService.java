@@ -2,7 +2,6 @@ package com.gabrielsantos.backend.services;
 
 import com.gabrielsantos.backend.entities.User;
 import com.gabrielsantos.backend.repositories.UserRepository;
-import com.gabrielsantos.backend.services.exceptions.ForbiddenException;
 import com.gabrielsantos.backend.services.exceptions.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

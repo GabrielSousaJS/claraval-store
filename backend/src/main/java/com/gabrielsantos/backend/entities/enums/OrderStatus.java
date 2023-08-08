@@ -12,7 +12,7 @@ public enum OrderStatus {
     @Getter
     private String value;
 
-    private OrderStatus(String value) {
+    OrderStatus(String value) {
         this.value = value;
     }
 
